@@ -1,23 +1,10 @@
 import { OutputType, RGBA } from '../types'
 
-export const number2hex = (num: number): string => {
-  const str = '0123456789ABCDEF'
-  let res = ''
-  let count = 0
+export const number2hex = (num: number): string => Math.min(255, Math.max(0, num)).toString(16).padStart(2, '0')
 
-  while (num !== 0 && count++ < 8) {
-    res += str[(num & 0xf)]
-    num >>= 4
-  }
+export const hex2number = (hex: string): number => Math.min(255, Math.max(0, parseInt(hex, 16)))
 
-  return res.slice(0, 2).padStart(2, '0')
-}
-
-export const toAlpha = (val: number): number => {
-  const number = Math.min(100, Math.max(0, val))
-
-  return Number((number / 100).toFixed(3))
-}
+export const toAlpha = (val: number): number => Number((Math.min(255, Math.max(0, val)) / 255).toFixed(3))
 
 export const getColorString = (rgba: RGBA, type: OutputType = 'HEX'): string => {
   switch (type) {

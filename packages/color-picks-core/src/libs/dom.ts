@@ -1,4 +1,4 @@
-export const createElement = <K extends keyof HTMLElementTagNameMap>(tagName: K, options?: Record<string, string>): HTMLElementTagNameMap[K] => {
+export const createElement = <K extends keyof HTMLElementTagNameMap>(tagName: K, options?: Record<string, string | number>): HTMLElementTagNameMap[K] => {
   const oEl = document.createElement(tagName)
 
   if (options) {

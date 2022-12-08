@@ -2,7 +2,7 @@
  * 取色器主色条
  */
 
-import { PREFIX, sizeConfig } from '../../../config'
+import { sizeConfig } from '../../../config'
 import { createElement, getPagePos } from '../../../libs/dom'
 import { getColorString } from '../../../libs/helper'
 import { RGBA } from '../../../types'
@@ -56,11 +56,10 @@ export default class MainColorBar {
   #setIndicatorPosition (percentage: number): void {
     if (!this.#indicator) return
 
-    const { width, height } = this
+    percentage = Math.min(1, Math.max(0, percentage))
 
-    this.#indicator.style.transform = `translateX(${(width - height) * Math.min(1, Math.max(0, percentage))}px)`
-    console.log(Math.round(this.#colors.length * percentage), this.#colors[Math.round(this.#colors.length * percentage)])
-    this.#indicator.style.backgroundColor = getColorString(this.#colors[Math.round(this.#colors.length * percentage)])
+    this.#indicator.style.top = `${100 * percentage}%`
+    // this.#indicator.style.background = `${getColorString(this.#colors[Math.round((this.#colors.length - 1) * percentage)])}`
   }
 
   #handleMousedown = (e: MouseEvent): void => {
@@ -70,14 +69,9 @@ export default class MainColorBar {
 
     this.#elRect = this.el.getBoundingClientRect()
     this.#handleMousEvent(e)
-    // this.#elRect = rect
-    // this.#startX = getPagePos(e).x
 
-    // console.log(this.#elRect, this.#startX)
-    // this.#setIndicatorPosition(100 * (this.#startX - rect.left) / rect.width)
-
-    document.addEventListener('mousemove', this.#handleMousemove, false)
-    document.addEventListener('mouseup', this.#handleMouseup, false)
+    window.addEventListener('mousemove', this.#handleMousemove, false)
+    window.addEventListener('mouseup', this.#handleMouseup, false)
   }
 
   #handleMousemove = (e: MouseEvent): void => {
@@ -87,58 +81,46 @@ export default class MainColorBar {
   #handleMouseup = (e: MouseEvent): void => {
     this.#handleMousEvent(e)
 
-    document.removeEventListener('mousemove', this.#handleMousemove, false)
-    document.removeEventListener('mouseup', this.#handleMouseup, false)
+    window.removeEventListener('mousemove', this.#handleMousemove, false)
+    window.removeEventListener('mouseup', this.#handleMouseup, false)
   }
 
   #handleMousEvent = (e: MouseEvent): void => {
     e.preventDefault()
     e.stopPropagation()
 
-    const clientX = getPagePos(e).x
+    const clientY = getPagePos(e).y
 
     const rect = this.#elRect
 
-    this.#setIndicatorPosition((clientX - rect!.left) / rect!.width)
+    this.#setIndicatorPosition((clientY - rect!.left) / rect!.height)
   }
 
   #createEl (): void {
     const { width, height } = this
 
     this.el = createElement('div', {
-      class: `${PREFIX}main-color-bar__wrapper`,
-      style: `
-        position: relative;
-        width: ${width}px;
-        height: ${height}px;
-      `
+      class: 'main-color-bar__wrapper',
+      style: `--width: ${width}px; --height: ${height}px;`
     })
   }
 
   #createMainColorBar (parentElement: HTMLElement): void {
     const { width, height } = this
     const canvas = createElement('canvas', {
-      class: `${PREFIX}main-color-bar__bar`,
+      class: 'main-color-bar__bar',
       width,
-      height,
-      style: 'display: block; border-radius: 2px;'
+      height
     })
 
     const ctx = canvas.getContext('2d')!
 
     const length = this.#colors.length
 
-    const gradient = ctx.createLinearGradient(0, 0, width, 0)
+    const gradient = ctx.createLinearGradient(0, 0, 0, height)
     for (let i = 0; i <= 6; i++) {
       gradient.addColorStop(i / 6, getColorString(i === 6 ? this.#colors[0] : this.#colors[length * i / 6]))
     }
-    // gradient.addColorStop(0, getColorString(this.#colors[0]))
-    // gradient.addColorStop(1 / 6, getColorString([255, 0, 255]))
-    // gradient.addColorStop(2 / 6, getColorString([0, 0, 255]))
-    // gradient.addColorStop(3 / 6, getColorString([0, 255, 255]))
-    // gradient.addColorStop(4 / 6, getColorString([0, 255, 0]))
-    // gradient.addColorStop(5 / 6, getColorString([255, 255, 0]))
-    // gradient.addColorStop(1, getColorString(this.#colors[length - 1]))
 
     ctx.fillStyle = gradient
 
@@ -149,20 +131,8 @@ export default class MainColorBar {
 
   #createIndicator (parentElement: HTMLElement): void {
     const indicator = createElement('div', {
-      class: `${PREFIX}main-color-bar__indicator`,
-      style: `
-        position: absolute;
-        left: 0;
-        top: 0;
-        width: ${sizeConfig.mainColorBarSize[1]}px;
-        height: ${sizeConfig.mainColorBarSize[1]}px;
-        border: 2px solid #fff;
-        outline: 1px solid #ccc;
-        padding: 2px;
-        border-radius: 50%;
-        box-sizing: border-box;
-        background-color: ${getColorString(this.#colors[0])}
-      `
+      class: 'main-color-bar__indicator'
+      // style: `background: ${getColorString(this.#colors[0])}`
     })
 
     parentElement.appendChild(indicator)
@@ -177,27 +147,27 @@ export default class MainColorBar {
     const colors: RGBA[] = []
 
     while (b < 255) {
-      colors.push([r, g, b, 100])
+      colors.push([r, g, b, 255])
       b++
     }
     while (r > 0) {
-      colors.push([r, g, b, 100])
+      colors.push([r, g, b, 255])
       r--
     }
     while (g < 255) {
-      colors.push([r, g, b, 100])
+      colors.push([r, g, b, 255])
       g++
     }
     while (b > 0) {
-      colors.push([r, g, b, 100])
+      colors.push([r, g, b, 255])
       b--
     }
     while (r < 255) {
-      colors.push([r, g, b, 100])
+      colors.push([r, g, b, 255])
       r++
     }
     while (g > 0) {
-      colors.push([r, g, b, 100])
+      colors.push([r, g, b, 255])
       g--
     }
 

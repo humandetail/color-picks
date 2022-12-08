@@ -1,0 +1,29 @@
+.color_picks__custom_picker__container {
+  canvas {
+    display: block;
+  }
+
+  .main-color-bar__wrapper {
+    position: relative;
+    width: var(--width);
+    height: var(--height);
+
+    .main-color-bar__bar {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+    }
+
+    .main-color-bar__indicator {
+      position: absolute;
+      left: -100%;
+      top: 0;
+      width: var(--width);
+      height: var(--width);
+      background-color: #fff;
+      clip-path: ellipse(var(--width) var(--width) at 100% 0);
+      transform-origin: right top;
+      transform: rotate(45deg);
+    }
+  }
+}
