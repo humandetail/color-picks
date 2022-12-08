@@ -4,9 +4,16 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "eslint": "eslint ./packages --fix"
   },
   "keywords": [],
   "author": "Humandetail",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.41.0",
+    "@typescript-eslint/parser": "^5.41.0",
+    "eslint": "^8.22.0",
+    "typescript": "^4.8.4",
+    "@vue/eslint-config-standard-with-typescript": "^8.0.0"
+  }
 }
