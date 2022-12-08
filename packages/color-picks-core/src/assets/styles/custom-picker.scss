@@ -20,10 +20,60 @@
       top: 0;
       width: var(--width);
       height: var(--width);
-      background-color: #fff;
+      background-color: #b1b1b1;
       clip-path: ellipse(var(--width) var(--width) at 100% 0);
       transform-origin: right top;
       transform: rotate(45deg);
+
+      &::before {
+        content: '';
+        position: absolute;
+        left: 1px;
+        top: 1px;
+        width: calc(100% - 2px);
+        height: calc(100% - 2px);
+        clip-path: ellipse(100% 100% at 100% 0);
+        background-color: #fff;
+        transform-origin: right top;
+      }
+    }
+  }
+
+  .alpha-bar__wrapper {
+    position: relative;
+    width: var(--width);
+    height: var(--height);
+    margin-top: 16px;
+
+    .alpha-bar__bar {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAADFJREFUOE9jZGBgEGHAD97gk2YcNYBhmIQBgWSAP52AwoAQwJvQRg1gACckQoC2gQgAIF8IscwEtKYAAAAASUVORK5CYII=") left center
+    }
+
+    .alpha-bar__indicator {
+      position: absolute;
+      left: 0;
+      top: -100%;
+      width: var(--height);
+      height: var(--height);
+      background-color: #b1b1b1;
+      clip-path: ellipse(100% 100% at 0 100%);
+      transform-origin: left bottom;
+      transform: rotate(-45deg);
+
+      &::before {
+        content: '';
+        position: absolute;
+        left: 1px;
+        bottom: 1px;
+        width: calc(100% - 2px);
+        height: calc(100% - 2px);
+        clip-path: ellipse(100% 100% at 0 100%);
+        background-color: #fff;
+        transform-origin: left bottom;
+      }
     }
   }
 }
