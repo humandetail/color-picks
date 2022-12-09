@@ -1,4 +1,4 @@
 export const sizeConfig = {
-  mainColorBarSize: [8, 180],
-  alphaBarSize: [180, 8]
+  mainColorBarSize: [8, 255],
+  alphaBarSize: [255, 8]
 }
