@@ -6,6 +6,7 @@
   width: 312px; // 256 + 8 + 16 + 32
   padding: 16px;
   border-radius: 4px;
+  background-color: #353535;
   box-sizing: border-box;
   box-shadow: 0 0 4px #ddd;
 
@@ -77,7 +78,7 @@
       position: absolute;
       inset: 0;
       z-index: 1;
-      background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAADFJREFUOE9jZGBgEGHAD97gk2YcNYBhmIQBgWSAP52AwoAQwJvQRg1gACckQoC2gQgAIF8IscwEtKYAAAAASUVORK5CYII=") left center
+      background: #fff url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAADFJREFUOE9jZGBgEGHAD97gk2YcNYBhmIQBgWSAP52AwoAQwJvQRg1gACckQoC2gQgAIF8IscwEtKYAAAAASUVORK5CYII=") left center
     }
 
     .alpha-bar__indicator {
