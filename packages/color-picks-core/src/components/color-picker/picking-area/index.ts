@@ -68,11 +68,11 @@ export default class PickingArea {
 
     let [r, g, b] = this.mainColor
 
-    const max = Math.min(255, Math.max(0, 255 - Math.round(255 * top)))
+    const max = PickingArea.getMinimum(top, 255)
 
-    r = PickingArea.getChannelValue(left, max, r)
-    g = PickingArea.getChannelValue(left, max, g)
-    b = PickingArea.getChannelValue(left, max, b)
+    r = PickingArea.getChannelValue(left, max, PickingArea.getMinimum(top, r))
+    g = PickingArea.getChannelValue(left, max, PickingArea.getMinimum(top, g))
+    b = PickingArea.getChannelValue(left, max, PickingArea.getMinimum(top, b))
 
     console.log(r, g, b)
   }
@@ -180,5 +180,9 @@ export default class PickingArea {
    */
   static getChannelValue (percentage: number, max: number, min: number): number {
     return Math.min(max, Math.max(min, max - Math.round((max - min) * percentage)))
+  }
+
+  static getMinimum (percentage: number, val: number): number {
+    return Math.min(val, Math.max(0, val - Math.round(val * percentage)))
   }
 }
