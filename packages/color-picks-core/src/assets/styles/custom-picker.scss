@@ -1,6 +1,35 @@
 .color_picks__custom_picker__container {
+  display: flex;
+  flex-wrap: wrap;
+  // justify-content: space-between;
+  gap: 16px;
+  width: 312px; // 256 + 8 + 16 + 32
+  padding: 16px;
+  border-radius: 4px;
+  box-sizing: border-box;
+  box-shadow: 0 0 4px #ddd;
+
   canvas {
     display: block;
+  }
+
+  .picking-area__wrapper {
+    position: relative;
+    width: var(--width);
+    height: var(--height);
+    overflow: hidden;
+
+    .picking-area__indicator {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      border: 2px solid #333;
+      box-sizing: border-box;
+      transform: translate(-6px, -6px);
+    }
   }
 
   .main-color-bar__wrapper {
@@ -43,7 +72,6 @@
     position: relative;
     width: var(--width);
     height: var(--height);
-    margin-top: 16px;
 
     .alpha-bar__bar {
       position: absolute;
