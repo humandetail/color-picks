@@ -1,10 +1,30 @@
-export const createElement = <K extends keyof HTMLElementTagNameMap>(tagName: K, options?: Record<string, string | number>): HTMLElementTagNameMap[K] => {
+export const createElement = <K extends keyof HTMLElementTagNameMap>(
+  tagName: K,
+  options?: Record<string, string | number> | null,
+  children?: string | HTMLElement | Array<HTMLElement | string>
+): HTMLElementTagNameMap[K] => {
   const oEl = document.createElement(tagName)
 
   if (options) {
     Object.entries(options).forEach(([key, value]) => {
       oEl.setAttribute(key, `${value}`)
     })
+  }
+
+  if (children) {
+    if (typeof children === 'string') {
+      oEl.textContent = children
+    } else if (Array.isArray(children)) {
+      children.forEach(child => {
+        if (typeof child === 'string') {
+          oEl.appendChild(document.createTextNode(child))
+        } else {
+          oEl.appendChild(child)
+        }
+      })
+    } else {
+      oEl.appendChild(children)
+    }
   }
 
   return oEl

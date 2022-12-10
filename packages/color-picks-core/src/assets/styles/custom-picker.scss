@@ -5,6 +5,7 @@
   gap: 16px;
   width: 312px; // 256 + 8 + 16 + 32
   padding: 16px;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
   border-radius: 4px;
   background-color: #353535;
   box-sizing: border-box;
@@ -102,6 +103,117 @@
         clip-path: ellipse(100% 100% at 0 100%);
         background-color: #fff;
         transform-origin: left bottom;
+      }
+    }
+  }
+
+  .operations__area {
+    display: flex;
+    flex-wrap: wrap;
+    gap: inherit;
+    width: 100%;
+
+    :not(input) {
+      user-select: none;
+    }
+    
+    .hex-input__input,
+    .rgba-input__input {
+      height: 14px;
+      font-size: 14px;
+      border: 0;
+      outline: 0;
+      color: #fff;
+      background-color: transparent;
+    }
+
+    .rgba-input__wrapper {
+      display: flex;
+      width: 100%;
+      gap: 8px;
+
+      .rgba-input__item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        font-size: 12px;
+        color: #ccc;
+
+        .rgba-input__input {
+          width: 40px;
+          height: 22px;
+          margin-left: 2px;
+          padding: 0 3px;
+          font-size: 14px;
+          border-radius: 2px;
+          border: 1px solid #ccc; 
+          background-color: #252525;
+  
+          &:focus {
+            border-color: #0088ff; 
+          }
+        }
+      }
+    }
+
+    .hex-input__wrapper {
+      display: flex;
+      align-items: center;
+      position: relative;
+      padding: 3px 3px 3px;
+      margin-left: 16px;
+      border-radius: 2px;
+      border: 1px solid #ccc; 
+      background-color: #252525;
+
+      &::before {
+        content: '#';
+        position: absolute;
+        left: -16px;
+        top: 3px;
+        width: 14px;
+        height: 14px;
+        line-height: 14px;
+        color: #eee;
+      }
+
+      &:focus-within {
+        border-color: #0088ff; 
+      }
+
+      .hex-input__input {
+        width: 80px;
+      }
+
+      .hex-input__preview {
+        width: 14px;
+        height: 14px;
+        border-radius: 2px;
+      }
+    }
+
+    .btns__wrapper {
+      display: flex;
+      justify-content: space-between;
+      flex: 1;
+
+      .btns__btn {
+        width: 64px;
+        border-radius: 2px;
+        color: #ccc;
+        border: 1px solid #ccc;
+        background-color: transparent;
+        cursor: pointer;
+
+        &:hover {
+          color: #0088ff;
+          border-color: #0088ff;
+        }
+
+        // &.btns__btn-confirm {
+        //   background-color: #0088ff;
+        //   border-color: #00aaff;
+        // }
       }
     }
   }
