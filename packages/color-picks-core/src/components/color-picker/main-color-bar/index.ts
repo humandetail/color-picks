@@ -58,6 +58,8 @@ export default class MainColorBar {
 
     percentage = Math.min(1, Math.max(0, percentage))
 
+    console.log(1, percentage)
+
     this.#indicator.style.top = `${100 * percentage}%`
     // this.#indicator.style.background = `${getColorString(this.#colors[Math.round((this.#colors.length - 1) * percentage)])}`
   }
@@ -93,7 +95,7 @@ export default class MainColorBar {
 
     const rect = this.#elRect
 
-    this.#setIndicatorPosition((clientY - rect!.left) / rect!.height)
+    this.#setIndicatorPosition((clientY - rect!.top) / rect!.height)
   }
 
   #createEl (): void {
