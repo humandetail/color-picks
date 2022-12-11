@@ -1,9 +1,9 @@
+import { ColorPickerState } from '..'
 import { createElement } from '../../../libs/dom'
 import { getColorString } from '../../../libs/helper'
-import { RGBA } from '../../../types'
 
 export default class OperationsArea {
-  currentColor: RGBA
+  state: ColorPickerState | null = null
 
   #hexInput: HTMLInputElement | null = null
   #RInput: HTMLInputElement | null = null
@@ -15,8 +15,11 @@ export default class OperationsArea {
   #confirmBtn: HTMLButtonElement | null = null
   #cancelBtn: HTMLButtonElement | null = null
 
-  constructor (currentColor: RGBA) {
-    this.currentColor = currentColor
+  setState (state: ColorPickerState): void {
+    this.state = state
+
+    this.#setHexInputValue()
+    this.#setRGBAInputValue()
   }
 
   render (parentElement: HTMLElement): void {
@@ -50,6 +53,36 @@ export default class OperationsArea {
     this.#cancelBtn!.addEventListener('click', this.#handleCancel, false)
   }
 
+  #setHexInputValue (): void {
+    const hex = getColorString(this.state!.currentColor, 'HEX')
+    if (this.#hexInput) {
+      this.#hexInput.value = hex.slice(1)
+    }
+    if (this.#preview) {
+      this.#preview.style.cssText = `--background: ${hex}`
+    }
+  }
+
+  #setRGBAInputValue (): void {
+    const [R, G, B, A] = this.state!.currentColor
+
+    if (this.#RInput) {
+      this.#RInput.value = `${R}`
+    }
+
+    if (this.#GInput) {
+      this.#GInput.value = `${G}`
+    }
+
+    if (this.#BInput) {
+      this.#BInput.value = `${B}`
+    }
+
+    if (this.#AInput) {
+      this.#AInput.value = `${A ?? 255}`
+    }
+  }
+
   #createHexInput (): HTMLLabelElement {
     const oInput = createElement('input', {
       class: 'hex-input__input'
@@ -57,7 +90,7 @@ export default class OperationsArea {
 
     const oPreview = createElement('div', {
       class: 'hex-input__preview',
-      style: `background-color: ${getColorString(this.currentColor, 'RGBA')}`
+      style: `background-color: ${getColorString(this.state?.currentColor ?? [255, 255, 255, 255], 'RGBA')}`
     })
 
     const oWrapper = createElement('label', {
@@ -69,6 +102,8 @@ export default class OperationsArea {
 
     this.#hexInput = oInput
     this.#preview = oPreview
+
+    this.#setHexInputValue()
 
     return oWrapper
   }
@@ -103,6 +138,8 @@ export default class OperationsArea {
     this.#GInput = oGInput
     this.#BInput = oBInput
     this.#AInput = oAInput
+
+    this.#setRGBAInputValue()
 
     return oWrapper
   }
@@ -189,7 +226,29 @@ export default class OperationsArea {
 
     value = Math.max(0, Math.min(255, value))
 
-    target.value = `${value}`
+    if (this.state) {
+      let [R, G, B, A] = this.state.currentColor
+
+      switch (target) {
+        case this.#RInput:
+          R = value
+          break
+        case this.#GInput:
+          G = value
+          break
+        case this.#BInput:
+          B = value
+          break
+        case this.#AInput:
+          A = value
+          break
+        default:
+          break
+      }
+
+      this.state.currentColor = [R, G, B, A]
+      this.state.setCurrentFlag = !this.state.setCurrentFlag
+    }
   }
 
   #handleConfirm = (): void => {

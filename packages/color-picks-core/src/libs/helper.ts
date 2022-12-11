@@ -9,7 +9,7 @@ export const toAlpha = (val: number): number => Number((Math.min(255, Math.max(0
 export const getColorString = (rgba: RGBA, type: OutputType = 'HEX'): string => {
   switch (type) {
     case 'HEX':
-      return `#${number2hex(rgba[0])}${number2hex(rgba[1])}${number2hex(rgba[2])}`
+      return `#${number2hex(rgba[0])}${number2hex(rgba[1])}${number2hex(rgba[2])}${rgba[3] !== 255 ? number2hex(rgba[3] ?? 0) : ''}`
     case 'RGB':
       return `rgb(${rgba[0]},${rgba[1]},${rgba[2]})`
     case 'RGBA':

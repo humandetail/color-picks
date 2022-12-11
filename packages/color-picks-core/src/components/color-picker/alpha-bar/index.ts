@@ -2,29 +2,27 @@
  * 透明取值条
  */
 
+import { ColorPickerState } from '..'
 import { sizeConfig } from '../../../config'
 import { createElement, getPagePos } from '../../../libs/dom'
 import { getColorString } from '../../../libs/helper'
-import { RGBA } from '../../../types'
 
-export default class MainColorBar {
+export default class AlphaBar {
   el: HTMLElement | null = null
   width: number
   height: number
 
-  mainColor: RGBA
+  state: ColorPickerState | null = null
 
   #indicator: HTMLElement | null = null
 
   #elRect: DOMRect | null = null
 
-  constructor (mainColor: RGBA) {
+  constructor () {
     const [width, height] = sizeConfig.alphaBarSize
 
     this.width = width
     this.height = height
-
-    this.mainColor = mainColor
   }
 
   render (parentElement: HTMLElement): void {
@@ -38,6 +36,11 @@ export default class MainColorBar {
     parentElement.appendChild(this.el)
 
     this.#initEvent()
+  }
+
+  setState (state: ColorPickerState): void {
+    this.state = state
+    this.#setIndicatorPosition(state.alpha / 255)
   }
 
   #initEvent (): void {
@@ -86,7 +89,12 @@ export default class MainColorBar {
 
     const rect = this.#elRect
 
-    this.#setIndicatorPosition((clientX - rect!.left) / rect!.width)
+    if (this.state) {
+      const percentage = (clientX - rect!.left) / rect!.width
+      this.state.alpha = Math.round(255 * Math.min(1, Math.max(0, percentage)))
+    }
+
+    // this.#setIndicatorPosition((clientX - rect!.left) / rect!.width)
   }
 
   #createEl (): void {
@@ -109,7 +117,7 @@ export default class MainColorBar {
     const ctx = canvas.getContext('2d')!
 
     const gradient = ctx.createLinearGradient(0, 0, width, 0)
-    const [r, g, b] = this.mainColor
+    const [r, g, b] = this.state!.mainColor
     gradient.addColorStop(0, getColorString([r, g, b, 0], 'RGBA'))
     gradient.addColorStop(1, getColorString([r, g, b, 255], 'RGBA'))
 
@@ -127,5 +135,7 @@ export default class MainColorBar {
 
     parentElement.appendChild(indicator)
     this.#indicator = indicator
+
+    this.#setIndicatorPosition((this.state?.alpha ?? 255) / 255)
   }
 }

@@ -2,34 +2,56 @@
  * 取色区
  */
 
+import { ColorPickerState } from '..'
 import { sizeConfig } from '../../../config'
 import { createElement, getPagePos } from '../../../libs/dom'
 import { getColorString } from '../../../libs/helper'
-import { RGBA } from '../../../types'
+
+// left: 1 - cMin / cMax
+// top: (mMax - cMax) / mMax
+// cMid: (mMax - (mMax - mMid) * left) * (1 - top)
 
 export default class PickingArea {
   el: HTMLElement | null = null
   width: number
   height: number
 
-  mainColor: RGBA
-  currentColor: RGBA
+  canvas: HTMLCanvasElement | null = null
+
+  state: ColorPickerState | null = null
 
   #indicator: HTMLElement | null = null
 
   #elRect: DOMRect | null = null
 
-  constructor (options: {
-    mainColor: RGBA
-    currentColor: RGBA
-  }) {
+  constructor () {
     const [width, height] = sizeConfig.pickingAreaSize
 
     this.width = width
     this.height = height
+  }
 
-    this.mainColor = options.mainColor
-    this.currentColor = options.currentColor
+  setState (state: ColorPickerState, setCurrent = false): void {
+    if (JSON.stringify(state.mainColor.slice(0, 3)) !== JSON.stringify(this.state?.mainColor.slice(0, 3))) {
+      // 先赋值，防止死循环
+      this.state = state
+      // 计算 left 值
+      const cMin = Math.min(...state.currentColor.slice(0, 3) as number[])
+      const cMax = Math.max(...state.currentColor.slice(0, 3) as number[])
+      const mMax = Math.max(...state.mainColor.slice(0, 3) as number[])
+
+      // left: 1 - cMin / cMax
+      // top: (mMax - cMax) / mMax
+      const left = Math.max(0, Math.min(1, 1 - cMin / cMax))
+      const top = Math.max(0, Math.min(1, (mMax - cMax) / mMax))
+
+      this.#setIndicatorPosition({
+        left,
+        top
+      }, setCurrent)
+    }
+    this.state = state
+    this.#draw()
   }
 
   render (parentElement: HTMLElement): void {
@@ -54,7 +76,7 @@ export default class PickingArea {
   /**
   * @param percentage - [0,1]
   */
-  #setIndicatorPosition ({ left, top }: { left: number, top: number }): void {
+  #setIndicatorPosition ({ left, top }: { left: number, top: number }, setCurrent = true): void {
     if (!this.#indicator) return
 
     this.#indicator.style.left = `${100 * Math.min(1, Math.max(0, left))}%`
@@ -66,15 +88,30 @@ export default class PickingArea {
       this.#indicator.style.borderColor = '#fff'
     }
 
-    let [r, g, b] = this.mainColor
+    if (!setCurrent) {
+      return
+    }
 
-    const max = PickingArea.getMinimum(top, 255)
+    const mainColor = this.state!.mainColor
 
-    r = PickingArea.getChannelValue(left, max, PickingArea.getMinimum(top, r))
-    g = PickingArea.getChannelValue(left, max, PickingArea.getMinimum(top, g))
-    b = PickingArea.getChannelValue(left, max, PickingArea.getMinimum(top, b))
+    const sortKeys = Object.keys(mainColor.slice(0, 3)).map(Number).sort((a, b) => mainColor[b]! - mainColor[a]!)
 
-    console.log(r, g, b)
+    // left: 1 - cMin / cMax
+    // top: (mMax - cMax) / mMax
+    // cMid: (mMax - (mMax - mMid) * left) * (1 - top)
+
+    const currentColor = [...mainColor]
+
+    const mMax = mainColor[sortKeys[0]]!
+    const mMid = mainColor[sortKeys[1]]!
+
+    currentColor[sortKeys[0]] = Math.max(0, Math.min(255, Math.round(mMax - mMax * top)))
+    currentColor[sortKeys[1]] = Math.max(0, Math.min(255, Math.round((mMax - (mMax - mMid) * left) * (1 - top))))
+    currentColor[sortKeys[2]] = Math.max(0, Math.min(255, Math.round((mMax - mMax * top) * (1 - left))))
+
+    if (this.state) {
+      this.state.currentColor = [currentColor[0]!, currentColor[1]!, currentColor[2]!, this.state.alpha]
+    }
   }
 
   #handleMousedown = (e: MouseEvent): void => {
@@ -117,8 +154,8 @@ export default class PickingArea {
     } = this.#elRect!
 
     this.#setIndicatorPosition({
-      left: (x - left) / width,
-      top: (y - top) / height
+      left: Math.max(0, Math.min(1, (x - left) / width)),
+      top: Math.max(0, Math.min(1, (y - top) / height))
     })
   }
 
@@ -139,9 +176,33 @@ export default class PickingArea {
       height
     })
 
+    this.canvas = canvas
+
+    parentElement.appendChild(canvas)
+
+    this.#draw()
+  }
+
+  #createIndicator (parentElement: HTMLElement): void {
+    const indicator = createElement('div', {
+      class: 'picking-area__indicator'
+    })
+
+    parentElement.appendChild(indicator)
+    this.#indicator = indicator
+  }
+
+  #draw (): void {
+    const canvas = this.canvas
+
+    if (!canvas) return
+
+    const { width, height } = this
     const ctx = canvas.getContext('2d')!
 
-    ctx.fillStyle = getColorString(this.mainColor)
+    ctx.clearRect(0, 0, width, height)
+
+    ctx.fillStyle = getColorString(this.state!.mainColor)
     ctx.fillRect(0, 0, width, height)
 
     // 白色遮罩
@@ -159,17 +220,6 @@ export default class PickingArea {
 
     ctx.fillStyle = maskGradientBlack
     ctx.fillRect(0, 0, width, height)
-
-    parentElement.appendChild(canvas)
-  }
-
-  #createIndicator (parentElement: HTMLElement): void {
-    const indicator = createElement('div', {
-      class: 'picking-area__indicator'
-    })
-
-    parentElement.appendChild(indicator)
-    this.#indicator = indicator
   }
 
   /**

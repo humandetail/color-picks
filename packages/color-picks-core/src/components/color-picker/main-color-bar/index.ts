@@ -2,6 +2,7 @@
  * 取色器主色条
  */
 
+import { ColorPickerState } from '..'
 import { sizeConfig } from '../../../config'
 import { createElement, getPagePos } from '../../../libs/dom'
 import { getColorString } from '../../../libs/helper'
@@ -11,6 +12,8 @@ export default class MainColorBar {
   el: HTMLElement | null = null
   width: number
   height: number
+
+  state: ColorPickerState | null = null
 
   #indicator: HTMLElement | null = null
 
@@ -23,12 +26,17 @@ export default class MainColorBar {
 
     this.width = width
     this.height = height
-    this.init()
+    this.#init()
   }
 
-  init (): void {
+  #init (): void {
     this.#createColors()
-    console.log(this.#colors)
+  }
+
+  setState (state: ColorPickerState): void {
+    this.state = state
+    const idx = this.#colors.findIndex(c => JSON.stringify(state.mainColor) === JSON.stringify(c))
+    this.#setIndicatorPosition(idx / this.#colors.length)
   }
 
   render (parentElement: HTMLElement): void {
@@ -58,10 +66,8 @@ export default class MainColorBar {
 
     percentage = Math.min(1, Math.max(0, percentage))
 
-    console.log(1, percentage)
-
     this.#indicator.style.top = `${100 * percentage}%`
-    // this.#indicator.style.background = `${getColorString(this.#colors[Math.round((this.#colors.length - 1) * percentage)])}`
+    // this.#indicator.style.background = `${getColorString()}`
   }
 
   #handleMousedown = (e: MouseEvent): void => {
@@ -95,7 +101,11 @@ export default class MainColorBar {
 
     const rect = this.#elRect
 
-    this.#setIndicatorPosition((clientY - rect!.top) / rect!.height)
+    const percentage = Math.min(1, Math.max(0, (clientY - rect!.top) / rect!.height))
+
+    this.state!.mainColor = this.#colors[Math.round((this.#colors.length - 1) * percentage)]
+
+    // this.#setIndicatorPosition()
   }
 
   #createEl (): void {
@@ -139,6 +149,9 @@ export default class MainColorBar {
 
     parentElement.appendChild(indicator)
     this.#indicator = indicator
+
+    const idx = this.#colors.findIndex(c => JSON.stringify(this.state?.mainColor ?? [255, 0, 0, 255]) === JSON.stringify(c))
+    this.#setIndicatorPosition(idx / this.#colors.length)
   }
 
   #createColors (): void {
