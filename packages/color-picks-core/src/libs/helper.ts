@@ -16,3 +16,43 @@ export const getColorString = (rgba: RGBA, type: OutputType = 'HEX'): string => 
       return `rgba(${rgba[0]},${rgba[1]},${rgba[2]},${toAlpha(rgba[3] ?? 0)})`
   }
 }
+
+export const getCheckedColor = ([R, G, B]: RGBA): string => {
+  if (R > 125 && G > 125 && B > 125) {
+    return '#333'
+  }
+
+  return '#fff'
+}
+
+export const hex2rgba = (hex: string): RGBA => {
+  if (hex.startsWith('#')) {
+    hex = hex.slice(1)
+  }
+
+  if (![3, 6, 8].includes(hex.length)) return [255, 255, 255, 255]
+
+  switch (hex.length) {
+    case 3:
+      hex = hex.split('').reduce((prev, item) => prev + item.repeat(2), '') + 'FF'
+      break
+    case 6:
+      hex += 'FF'
+      break
+  }
+
+  const match = hex.match(/^(.{2})(.{2})(.{2})(.{2})$/)
+
+  console.log(match)
+
+  if (match) {
+    return [
+      hex2number(match[1]),
+      hex2number(match[2]),
+      hex2number(match[3]),
+      hex2number(match[4])
+    ]
+  }
+
+  return [255, 255, 255, 255]
+}

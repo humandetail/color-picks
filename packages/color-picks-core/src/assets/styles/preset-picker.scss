@@ -1,0 +1,72 @@
+.color_picks__preset_picker__container {
+  width: 312px;
+  // padding: 16px;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  border-radius: 4px;
+  background-color: #353535;
+  box-sizing: border-box;
+  box-shadow: 0 0 4px #ddd;
+  --border-color: rgb(75, 75, 75);
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  ul { list-style: none; }
+
+  .preset_picker__title {
+    padding-left: 16px;
+    font-size: 14px;
+    color: #ccc;
+    font-weight: 700;
+    line-height: 26px;
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  .preset_picker__color {
+    position: relative;
+    width: 26px;
+    height: 26px;
+    padding: 2px;
+    border-radius: 3px;
+    border: 1px solid transparent;
+    
+    &::before {
+      content: '';
+      position: absolute;
+      left: 3px;
+      top: 3px;
+      width: calc(100% - 6px);
+      height: calc(100% - 6px);
+      border-radius: inherit;
+      // border: 1px solid var(--border-color);
+      background-color: var(--color);
+      pointer-events: none;
+    }
+
+    &.checked {
+      &::after {
+        content: '✓';
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: absolute;
+        inset: 0;
+        text-align: center;
+        font-size: 12px;
+        color: var(--checked-color, #fff);
+        pointer-events: none;
+      }
+    }
+
+    &:hover {
+      border-color: var(--border-color);
+    }
+  }
+
+  .popular-colors__wrapper .popular-colors__list,
+  .standard-colors__wrapper .standard-colors__colors,
+  .memory-colors__wrapper .memory-colors__colors {
+    display: flex;
+    justify-content: space-between;
+    padding: 3px 16px;
+  }
+}
