@@ -2,10 +2,10 @@
  * 取色器主色条
  */
 
-import { ColorPickerState } from '..'
 import { sizeConfig } from '../../../config'
 import { createElement, getPagePos } from '../../../libs/dom'
 import { getColorString } from '../../../libs/helper'
+import { ColorPicksState } from '../../../main'
 import { RGBA } from '../../../types'
 
 export default class MainColorBar {
@@ -13,7 +13,7 @@ export default class MainColorBar {
   width: number
   height: number
 
-  state: ColorPickerState | null = null
+  state: ColorPicksState | null = null
 
   #indicator: HTMLElement | null = null
 
@@ -33,7 +33,7 @@ export default class MainColorBar {
     this.#createColors()
   }
 
-  setState (state: ColorPickerState): void {
+  setState (state: ColorPicksState): void {
     this.state = state
     const idx = this.#colors.findIndex(c => JSON.stringify(state.mainColor) === JSON.stringify(c))
     this.#setIndicatorPosition(idx / this.#colors.length)

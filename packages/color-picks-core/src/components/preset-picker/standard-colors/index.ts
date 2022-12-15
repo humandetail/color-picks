@@ -1,15 +1,18 @@
 import { PresetColor } from '..'
 import { createElement } from '../../../libs/dom'
-import { getCheckedColor, getColorString } from '../../../libs/helper'
+import { getCheckedColor, getColorString, hex2rgba } from '../../../libs/helper'
+import { ColorPicksState } from '../../../main'
 
 export default class StandardColors {
   #colors: PresetColor[]
 
   el: HTMLElement | null = null
 
+  state: ColorPicksState | null = null
+
   constructor () {
     this.#colors = [
-      { value: [192, 0, 0, 255], name: '深红' },
+      { value: [0, 0, 0, 0], name: '透明' },
       { value: [255, 0, 0, 255], name: '红色' },
       { value: [255, 192, 0, 255], name: '橙色' },
       { value: [255, 255, 0, 255], name: '黄色' },
@@ -22,13 +25,17 @@ export default class StandardColors {
     ]
   }
 
+  setState (state: ColorPicksState): void {
+    this.state = state
+  }
+
   render (parentElement: HTMLElement): void {
     const oWrapper = createElement('section', { class: 'standard-colors__wrapper' }, [
       createElement('h3', { class: 'standard-colors__title preset_picker__title' }, '标准色'),
-      createElement('ul', { class: 'standard-colors__colors' }, this.#colors.map(item => {
+      createElement('ul', { class: 'standard-colors__colors' }, this.#colors.map((item, index) => {
         return createElement('li', {
-          class: 'standard-colors__color preset_picker__color',
-          'data-color': getColorString(item.value, 'RGBA'),
+          class: `standard-colors__color preset_picker__color${index === 0 ? ' transparent' : ''}`,
+          'data-color': getColorString(item.value),
           title: `${item.name ?? ''}(${getColorString(item.value)})`,
           style: `--color: ${getColorString(item.value)}; --checked-color: ${getCheckedColor(item.value)}`
         })
@@ -52,9 +59,10 @@ export default class StandardColors {
     const target = e.target as HTMLElement
 
     if (target.classList.contains('preset_picker__color')) {
-      console.log(target.getAttribute('data-color'))
-      // @todo 后续由数据来控制选中状态
-      target.classList.add('checked')
+      const color = target.getAttribute('data-color')
+      if (this.state && color) {
+        this.state.currentColor = hex2rgba(color)
+      }
     }
   }
 }

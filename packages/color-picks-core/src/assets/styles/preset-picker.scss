@@ -1,5 +1,7 @@
 .color_picks__preset_picker__container {
-  width: 312px;
+  position: absolute;
+  inset: 0;
+  // width: 312px;
   // padding: 16px;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
   border-radius: 4px;
@@ -57,6 +59,15 @@
       }
     }
 
+    &.transparent {
+      &::before {
+        background: #fff url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAADFJREFUOE9jZGBgEGHAD97gk2YcNYBhmIQBgWSAP52AwoAQwJvQRg1gACckQoC2gQgAIF8IscwEtKYAAAAASUVORK5CYII=") left center
+      }
+      &.checked::after {
+        color: #f00;
+      }
+    }
+
     &:hover {
       border-color: var(--border-color);
     }
@@ -67,6 +78,13 @@
   .memory-colors__wrapper .memory-colors__colors {
     display: flex;
     justify-content: space-between;
-    padding: 3px 16px;
+    padding: 3px 16px 2px 16px;
+  }
+
+  .memory-colors__wrapper .no-memory {
+    flex: 1;
+    font-size: 14px;
+    // text-align: center;
+    color: #ccc;
   }
 }

@@ -1,0 +1,31 @@
+.color_picks__panel_switcher__container {
+  display: inline-flex;
+  align-items: center;
+  position: absolute;
+  right: 8px;
+  top: 0;
+  z-index: 9;
+
+  .color_picks__panel_switcher__btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 26px;
+    height: 26px;
+    cursor: pointer;
+    color: #515151;
+
+    .icon {
+      fill: currentColor;
+      pointer-events: none;
+    }
+
+    &.active {
+      color: #0088ff;
+    }
+
+    &:hover {
+      background-color: #3e3e3e;
+    }
+  }
+}

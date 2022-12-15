@@ -3,13 +3,31 @@
   flex-wrap: wrap;
   // justify-content: space-between;
   gap: 16px;
-  width: 312px; // 256 + 8 + 16 + 32
-  padding: 16px;
+  position: absolute;
+  // width: 312px; // 256 + 8 + 16 + 32
+  inset: 0;
+  padding: 32px 16px 16px;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
   border-radius: 4px;
   background-color: #353535;
   box-sizing: border-box;
   box-shadow: 0 0 4px #ddd;
+  visibility: hidden;
+
+  .color_picks__custom_picker__header {
+    position: absolute;
+    left: 0;
+    top: 0;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    padding-left: 16px;
+    font-size: 14px;
+    line-height: 26px;
+    color: #ccc;
+    border-bottom: 1px solid rgb(75, 75, 75);
+    box-sizing: border-box;
+  }
 
   canvas {
     display: block;

@@ -43,8 +43,6 @@ export const hex2rgba = (hex: string): RGBA => {
 
   const match = hex.match(/^(.{2})(.{2})(.{2})(.{2})$/)
 
-  console.log(match)
-
   if (match) {
     return [
       hex2number(match[1]),

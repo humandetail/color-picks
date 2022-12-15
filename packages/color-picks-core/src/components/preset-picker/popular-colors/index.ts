@@ -2,11 +2,14 @@ import { PresetColor } from '..'
 import colorsConfig from '../../../config/colors.config'
 import { createElement } from '../../../libs/dom'
 import { getCheckedColor, getColorString, hex2rgba } from '../../../libs/helper'
+import { ColorPicksState } from '../../../main'
 
 export default class PopularColors {
   el: HTMLElement | null = null
 
   #colors: PresetColor[][]
+
+  state: ColorPicksState | null = null
 
   constructor () {
     this.#colors = [
@@ -23,6 +26,10 @@ export default class PopularColors {
     ]
   }
 
+  setState (state: ColorPicksState): void {
+    this.state = state
+  }
+
   render (parentElement: HTMLElement): void {
     const oWrapper = createElement('section', { class: 'popular-colors__wrapper' }, [
       createElement('h3', { class: 'popular-colors__title preset_picker__title' }, '主题颜色'),
@@ -30,7 +37,7 @@ export default class PopularColors {
         return createElement('ul', { class: 'popular-colors__colors' }, columns.map(item => {
           return createElement('li', {
             class: 'popular-colors__color preset_picker__color',
-            'data-color': getColorString(item.value, 'RGBA'),
+            'data-color': getColorString(item.value),
             title: `${item.name ?? ''}(${getColorString(item.value)})`,
             style: `--color: ${getColorString(item.value)}; --checked-color: ${getCheckedColor(item.value)}`
           })
@@ -55,9 +62,10 @@ export default class PopularColors {
     const target = e.target as HTMLElement
 
     if (target.classList.contains('preset_picker__color')) {
-      console.log(target.getAttribute('data-color'))
-      // @todo 后续由数据来控制选中状态
-      target.classList.add('checked')
+      const color = target.getAttribute('data-color')
+      if (this.state && color) {
+        this.state.currentColor = hex2rgba(color)
+      }
     }
   }
 }
