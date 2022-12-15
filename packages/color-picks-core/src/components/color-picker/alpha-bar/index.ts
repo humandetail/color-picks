@@ -2,18 +2,19 @@
  * 透明取值条
  */
 
-import { ColorPickerState } from '..'
 import { sizeConfig } from '../../../config'
 import { createElement, getPagePos } from '../../../libs/dom'
 import { getColorString } from '../../../libs/helper'
+import { ColorPicksState } from '../../../main'
 
 export default class AlphaBar {
   el: HTMLElement | null = null
   width: number
   height: number
 
-  state: ColorPickerState | null = null
+  state: ColorPicksState | null = null
 
+  #canvas: HTMLCanvasElement | null = null
   #indicator: HTMLElement | null = null
 
   #elRect: DOMRect | null = null
@@ -38,9 +39,14 @@ export default class AlphaBar {
     this.#initEvent()
   }
 
-  setState (state: ColorPickerState): void {
+  setState (state: ColorPicksState): void {
     this.state = state
-    this.#setIndicatorPosition(state.alpha / 255)
+
+    const alpha = this.state.currentColor.at(-1) ?? 255
+
+    // this.#setIndicatorPosition(state.alpha / 255)
+    this.#setIndicatorPosition(alpha / 255)
+    this.#setBarBackground()
   }
 
   #initEvent (): void {
@@ -91,7 +97,13 @@ export default class AlphaBar {
 
     if (this.state) {
       const percentage = (clientX - rect!.left) / rect!.width
-      this.state.alpha = Math.round(255 * Math.min(1, Math.max(0, percentage)))
+      // this.state.alpha = Math.round(255 * Math.min(1, Math.max(0, percentage)))
+      this.state.currentColor = [
+        this.state.currentColor[0],
+        this.state.currentColor[1],
+        this.state.currentColor[2],
+        Math.round(255 * Math.min(1, Math.max(0, percentage)))
+      ]
     }
 
     // this.#setIndicatorPosition((clientX - rect!.left) / rect!.width)
@@ -114,16 +126,9 @@ export default class AlphaBar {
       height
     })
 
-    const ctx = canvas.getContext('2d')!
+    this.#canvas = canvas
 
-    const gradient = ctx.createLinearGradient(0, 0, width, 0)
-    const [r, g, b] = this.state!.mainColor
-    gradient.addColorStop(0, getColorString([r, g, b, 0], 'RGBA'))
-    gradient.addColorStop(1, getColorString([r, g, b, 255], 'RGBA'))
-
-    ctx.fillStyle = gradient
-
-    ctx.fillRect(0, 0, width, height)
+    this.#setBarBackground()
 
     parentElement.appendChild(canvas)
   }
@@ -136,6 +141,29 @@ export default class AlphaBar {
     parentElement.appendChild(indicator)
     this.#indicator = indicator
 
-    this.#setIndicatorPosition((this.state?.alpha ?? 255) / 255)
+    this.#setIndicatorPosition((this.state?.currentColor.at(-1) ?? 255) / 255)
+  }
+
+  #setBarBackground (): void {
+    const canvas = this.#canvas
+
+    if (!canvas) {
+      return
+    }
+
+    const { width, height } = this
+
+    const ctx = canvas.getContext('2d')!
+
+    ctx.clearRect(0, 0, width, height)
+
+    const gradient = ctx.createLinearGradient(0, 0, width, 0)
+    const [r, g, b] = this.state?.currentColor ?? [255, 255, 255]
+    gradient.addColorStop(0, getColorString([r, g, b, 0], 'RGBA'))
+    gradient.addColorStop(1, getColorString([r, g, b, 255], 'RGBA'))
+
+    ctx.fillStyle = gradient
+
+    ctx.fillRect(0, 0, width, height)
   }
 }

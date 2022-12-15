@@ -2,10 +2,10 @@
  * 取色区
  */
 
-import { ColorPickerState } from '..'
 import { sizeConfig } from '../../../config'
 import { createElement, getPagePos } from '../../../libs/dom'
 import { getColorString } from '../../../libs/helper'
+import { ColorPicksState } from '../../../main'
 
 // left: 1 - cMin / cMax
 // top: (mMax - cMax) / mMax
@@ -18,7 +18,7 @@ export default class PickingArea {
 
   canvas: HTMLCanvasElement | null = null
 
-  state: ColorPickerState | null = null
+  state: ColorPicksState | null = null
 
   #indicator: HTMLElement | null = null
 
@@ -31,8 +31,13 @@ export default class PickingArea {
     this.height = height
   }
 
-  setState (state: ColorPickerState, setCurrent = false): void {
-    if (JSON.stringify(state.mainColor.slice(0, 3)) !== JSON.stringify(this.state?.mainColor.slice(0, 3))) {
+  /**
+   * @param state - state
+   * @param setCurrent - 是否设置当前颜色
+   * @param isMainColorChanged - 是否主色条发生改变
+   */
+  setState (state: ColorPicksState, setCurrent = false, isMainColorChanged = false): void {
+    if (isMainColorChanged) {
       // 先赋值，防止死循环
       this.state = state
       // 计算 left 值
@@ -42,8 +47,8 @@ export default class PickingArea {
 
       // left: 1 - cMin / cMax
       // top: (mMax - cMax) / mMax
-      const left = Math.max(0, Math.min(1, 1 - cMin / cMax))
-      const top = Math.max(0, Math.min(1, (mMax - cMax) / mMax))
+      const left = cMax === 0 ? 0 : Math.max(0, Math.min(1, 1 - cMin / cMax))
+      const top = mMax === 0 ? 0 : Math.max(0, Math.min(1, (mMax - cMax) / mMax))
 
       this.#setIndicatorPosition({
         left,
@@ -110,7 +115,8 @@ export default class PickingArea {
     currentColor[sortKeys[2]] = Math.max(0, Math.min(255, Math.round((mMax - mMax * top) * (1 - left))))
 
     if (this.state) {
-      this.state.currentColor = [currentColor[0]!, currentColor[1]!, currentColor[2]!, this.state.alpha]
+      // this.state.currentColor = [currentColor[0]!, currentColor[1]!, currentColor[2]!, this.state.alpha]
+      this.state.currentColor = [currentColor[0]!, currentColor[1]!, currentColor[2]!, this.state.currentColor.at(-1) ?? 255]
     }
   }
 

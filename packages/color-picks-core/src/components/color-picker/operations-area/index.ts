@@ -1,9 +1,13 @@
-import { ColorPickerState } from '..'
+/**
+ * 操作区域
+ */
+
 import { createElement } from '../../../libs/dom'
 import { getColorString } from '../../../libs/helper'
+import { ColorPicksState } from '../../../main'
 
 export default class OperationsArea {
-  state: ColorPickerState | null = null
+  state: ColorPicksState | null = null
 
   #hexInput: HTMLInputElement | null = null
   #RInput: HTMLInputElement | null = null
@@ -15,7 +19,7 @@ export default class OperationsArea {
   #confirmBtn: HTMLButtonElement | null = null
   #cancelBtn: HTMLButtonElement | null = null
 
-  setState (state: ColorPickerState): void {
+  setState (state: ColorPicksState): void {
     this.state = state
 
     this.#setHexInputValue()
@@ -167,7 +171,7 @@ export default class OperationsArea {
   }
 
   #handleHexInputKeydown = (e: KeyboardEvent): void => {
-    if (!/^[0-9a-fA-F]+$/.test(e.key)) {
+    if (!/^[0-9a-fA-F]+$/.test(e.key) && e.key !== 'Tab') {
       e.preventDefault()
     }
   }
@@ -211,7 +215,7 @@ export default class OperationsArea {
   }
 
   #handleRGBAInputKeydown = (e: KeyboardEvent): void => {
-    if (!/^\d+$/.test(e.key)) {
+    if (!/^\d+$/.test(e.key) && e.key !== 'Tab') {
       e.preventDefault()
     }
   }
