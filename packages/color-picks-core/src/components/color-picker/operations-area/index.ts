@@ -3,7 +3,7 @@
  */
 
 import { createElement } from '../../../libs/dom'
-import { getColorString } from '../../../libs/helper'
+import { getColorString, hex2rgba } from '../../../libs/helper'
 import { ColorPicksState } from '../../../main'
 
 export default class OperationsArea {
@@ -171,7 +171,11 @@ export default class OperationsArea {
   }
 
   #handleHexInputKeydown = (e: KeyboardEvent): void => {
-    if (!/^[0-9a-fA-F]+$/.test(e.key) && e.key !== 'Tab') {
+    const allowKeys = ['Backspace', 'Tab', 'Enter']
+    if (
+      !/^[0-9a-fA-F]+$/.test(e.key) &&
+      !allowKeys.includes(e.key)
+    ) {
       e.preventDefault()
     }
   }
@@ -211,11 +215,15 @@ export default class OperationsArea {
         }
     }
 
-    target.value = value
+    if (this.state) {
+      this.state.currentColor = hex2rgba(value)
+      this.state.setCurrentFlag = !this.state.setCurrentFlag
+    }
   }
 
   #handleRGBAInputKeydown = (e: KeyboardEvent): void => {
-    if (!/^\d+$/.test(e.key) && e.key !== 'Tab') {
+    const allowKeys = ['Backspace', 'Tab', 'Enter']
+    if (!/^\d+$/.test(e.key) && !allowKeys.includes(e.key)) {
       e.preventDefault()
     }
   }
