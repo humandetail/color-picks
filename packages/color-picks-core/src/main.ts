@@ -5,12 +5,16 @@ import './assets/styles/index.scss'
 import PanelSwitcher, { PanelType } from './components/panel-switcher'
 import { createElement } from './libs/dom'
 import EventEmitter from './libs/EventEmitter'
-import { RGBA } from './types'
+import { OutputType, RGBA } from './types'
 import PickingArea from './components/color-picker/picking-area'
 import MainColorBar from './components/color-picker/main-color-bar'
 import AlphaBar from './components/color-picker/alpha-bar'
 import OperationsArea from './components/color-picker/operations-area'
-import { hex2number } from './libs/helper'
+import { getColorString, hex2number } from './libs/helper'
+import { MEMORY_COLORS_KEY } from './config'
+import PopularColors from './components/preset-picker/popular-colors'
+import MemoryColors from './components/preset-picker/memory-colors'
+import StandardColors from './components/preset-picker/standard-colors'
 
 export interface ColorPicksState {
   initialValue: RGBA
@@ -18,6 +22,8 @@ export interface ColorPicksState {
   currentColor: RGBA
   setCurrentFlag: boolean
   panel: PanelType
+  confirm: () => void
+  cancel: () => void
 }
 
 export interface ColorPicksContext {
@@ -30,14 +36,28 @@ export interface ColorPicksContext {
   mainColorBar?: MainColorBar
   alphaBar?: AlphaBar
   operationsArea?: OperationsArea
+
+  popularColors?: PopularColors
+  standardColors?: StandardColors
+  memoryColors?: MemoryColors
+}
+
+export interface ColorPicksOptions {
+  outputType?: OutputType
 }
 
 export default class ColorPicks extends EventEmitter {
   #state: ColorPicksState
   #context: ColorPicksContext = {}
 
-  constructor () {
+  options: ColorPicksOptions
+
+  constructor (options: ColorPicksOptions = {}) {
     super()
+
+    this.options = Object.assign({}, {
+      outputType: 'HEX'
+    }, options)
 
     // eslint-disable-next-line @typescript-eslint/no-this-alias
     const _this = this
@@ -46,9 +66,10 @@ export default class ColorPicks extends EventEmitter {
       initialValue: [255, 255, 255, 255],
       mainColor: [255, 0, 0, 255],
       currentColor: [255, 255, 255, 255],
-      alpha: 255,
       setCurrentFlag: true,
-      panel: 'PresetPicker' // todo
+      panel: 'PresetPicker',
+      confirm: _this.#confirm,
+      cancel: _this.#cancel
     }, {
       get (target, key) {
         return Reflect.get(target, key)
@@ -172,7 +193,8 @@ export default class ColorPicks extends EventEmitter {
       panelSwitcher,
       presetPicker,
       colorPicker,
-      ...colorPicker.context
+      ...colorPicker.context,
+      ...presetPicker.context
     }
 
     this.#handlePanelChange(this.state.panel)
@@ -182,6 +204,39 @@ export default class ColorPicks extends EventEmitter {
     }
 
     return this
+  }
+
+  #confirm = (): void => {
+    console.log('confirm', this)
+    this.#setMemoryColors()
+
+    this.emit('confirm', getColorString(this.state.currentColor, this.options.outputType))
+  }
+
+  #cancel = (): void => {
+    console.log('cancel', this)
+    this.emit('cancel')
+  }
+
+  #setMemoryColors (): void {
+    let memoryColors: RGBA[] = JSON.parse(localStorage.getItem(MEMORY_COLORS_KEY) ?? '[]') || []
+
+    // 过滤非法数据
+    memoryColors = memoryColors.filter(color => Array.isArray(color) && color.length === 4 && getColorString(color) !== getColorString(this.state.currentColor))
+
+    memoryColors.unshift(this.state.currentColor)
+
+    if (memoryColors.length > 10) {
+      memoryColors.length = 10
+    }
+
+    localStorage.setItem(MEMORY_COLORS_KEY, JSON.stringify(memoryColors))
+
+    if (this.#context.memoryColors) {
+      this.#context.memoryColors.setColor()
+    }
+
+    console.log('set memory', memoryColors)
   }
 
   #handlePanelChange (type: PanelType): void {
@@ -289,3 +344,7 @@ export default class ColorPicks extends EventEmitter {
 const colorPicks = new ColorPicks()
 
 colorPicks.setColor('rgba(255, 0, 0, 0)').mount(document.querySelector('#app')!)
+
+colorPicks.on('confirm', (color: string) => {
+  console.log('confirm', color)
+})

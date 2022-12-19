@@ -1,10 +1,12 @@
 import { PresetColor } from '..'
+import { MEMORY_COLORS_KEY } from '../../../config'
 import { createElement } from '../../../libs/dom'
 import { getCheckedColor, getColorString, hex2rgba } from '../../../libs/helper'
 import { ColorPicksState } from '../../../main'
+import { RGBA } from '../../../types'
 
 export default class MemoryColors {
-  #colors: PresetColor[]
+  #colors: PresetColor[] = []
 
   el: HTMLElement | null = null
 
@@ -23,11 +25,50 @@ export default class MemoryColors {
     //   { value: [0, 32, 96, 255], name: '深蓝' },
     //   { value: [112, 48, 160, 255], name: '紫色' }
     // ]
-    this.#colors = []
+    this.#init()
+  }
+
+  #init (): void {
+    let memoryColors: RGBA[] = JSON.parse(localStorage.getItem(MEMORY_COLORS_KEY) ?? '[]') || []
+
+    // 过滤非法数据
+    memoryColors = memoryColors.filter(color => Array.isArray(color) && color.length === 4)
+
+    this.#colors = memoryColors.map(value => {
+      return {
+        value,
+        name: getColorString(value)
+      }
+    })
   }
 
   setState (state: ColorPicksState): void {
     this.state = state
+  }
+
+  setColor (): void {
+    this.#init()
+
+    const oUl = this.el?.querySelector('.memory-colors__colors')
+
+    if (oUl) {
+      oUl.innerHTML = ''
+
+      const oTemp = document.createDocumentFragment()
+
+      this.#colors.forEach(item => {
+        oTemp.appendChild(
+          createElement('li', {
+            class: 'memory-colors__color preset_picker__color',
+            'data-color': getColorString(item.value),
+            title: `${item.name ?? ''}(${getColorString(item.value)})`,
+            style: `--color: ${getColorString(item.value)}; --checked-color: ${getCheckedColor(item.value)}`
+          })
+        )
+      })
+
+      oUl.appendChild(oTemp)
+    }
   }
 
   render (parentElement: HTMLElement): void {
@@ -69,6 +110,7 @@ export default class MemoryColors {
       const color = target.getAttribute('data-color')
       if (this.state && color) {
         this.state.currentColor = hex2rgba(color)
+        this.state.confirm()
       }
     }
   }

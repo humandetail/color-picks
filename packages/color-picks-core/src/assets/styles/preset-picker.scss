@@ -81,10 +81,17 @@
     padding: 3px 16px 2px 16px;
   }
 
-  .memory-colors__wrapper .no-memory {
-    flex: 1;
-    font-size: 14px;
-    // text-align: center;
-    color: #ccc;
+  .memory-colors__wrapper {
+    .memory-colors__colors {
+      justify-content: flex-start;
+      gap: 3px;
+    }
+
+    .no-memory {
+      flex: 1;
+      font-size: 14px;
+      // text-align: center;
+      color: #ccc;
+    }
   }
 }

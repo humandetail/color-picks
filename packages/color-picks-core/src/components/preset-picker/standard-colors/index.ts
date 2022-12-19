@@ -62,6 +62,7 @@ export default class StandardColors {
       const color = target.getAttribute('data-color')
       if (this.state && color) {
         this.state.currentColor = hex2rgba(color)
+        this.state.confirm()
       }
     }
   }
