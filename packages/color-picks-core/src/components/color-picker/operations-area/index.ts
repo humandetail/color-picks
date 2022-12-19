@@ -265,9 +265,15 @@ export default class OperationsArea {
 
   #handleConfirm = (): void => {
     console.log('confirm')
+    if (this.state) {
+      this.state.confirm()
+    }
   }
 
   #handleCancel = (): void => {
     console.log('cancel')
+    if (this.state) {
+      this.state.cancel()
+    }
   }
 }

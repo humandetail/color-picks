@@ -22,7 +22,7 @@ export default class PresetPicker {
 
   state: ColorPicksState
 
-  #context: PresetPickerContext = {}
+  context: PresetPickerContext = {}
 
   constructor (state: ColorPicksState) {
     this.state = state
@@ -30,14 +30,14 @@ export default class PresetPicker {
 
   setState (state: ColorPicksState): void {
     this.state = state
-    if (this.#context.popularColors) {
-      this.#context.popularColors.setState(state)
+    if (this.context.popularColors) {
+      this.context.popularColors.setState(state)
     }
-    if (this.#context.standardColors) {
-      this.#context.standardColors.setState(state)
+    if (this.context.standardColors) {
+      this.context.standardColors.setState(state)
     }
-    if (this.#context.memoryColors) {
-      this.#context.memoryColors.setState(state)
+    if (this.context.memoryColors) {
+      this.context.memoryColors.setState(state)
     }
     this.#setCheckedColor()
   }
@@ -61,9 +61,9 @@ export default class PresetPicker {
 
     parentElement.appendChild(el)
 
-    this.#context.popularColors = popularColors
-    this.#context.standardColors = standardColors
-    this.#context.memoryColors = memoryColors
+    this.context.popularColors = popularColors
+    this.context.standardColors = standardColors
+    this.context.memoryColors = memoryColors
 
     this.el = el
 
