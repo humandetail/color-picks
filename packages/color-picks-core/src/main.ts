@@ -46,14 +46,31 @@ export interface ColorPicksOptions {
   outputType?: OutputType
 }
 
+type ElType = string | HTMLElement
+
 export default class ColorPicks extends EventEmitter {
   #state: ColorPicksState
   #context: ColorPicksContext = {}
 
+  el: HTMLElement
   options: ColorPicksOptions
 
-  constructor (options: ColorPicksOptions = {}) {
+  isShow = false
+  mounted = false
+
+  constructor (el: ElType, options: ColorPicksOptions = {}) {
     super()
+
+    const oEl = typeof el === 'string'
+      ? document.querySelector<HTMLElement>(el)
+      : el
+
+    if (!oEl || !('innerHTML' in oEl)) {
+      // eslint-disable-next-line @typescript-eslint/no-base-to-string, @typescript-eslint/restrict-template-expressions
+      throw new TypeError(`'el' expeact a selector or a HTML element, but got '${el}'`)
+    }
+
+    this.el = oEl
 
     this.options = Object.assign({}, {
       outputType: 'HEX'
@@ -106,10 +123,16 @@ export default class ColorPicks extends EventEmitter {
         return result
       }
     })
+
+    this.#init()
   }
 
   get state (): ColorPicksState {
     return this.#state
+  }
+
+  #init (): void {
+    this.el.addEventListener('click', this.#handleElClick, false)
   }
 
   setColor (color: string): ColorPicks {
@@ -203,7 +226,38 @@ export default class ColorPicks extends EventEmitter {
       this.#context.pickingArea.setState(this.state, true, true)
     }
 
+    this.mounted = true
+
     return this
+  }
+
+  show (): void {
+    if (!this.mounted) {
+      this.mount(document.body)
+    }
+
+    if (this.el && this.#context.el) {
+      const rect = this.el.getBoundingClientRect()
+
+      // 获取位置
+      // @todo
+      const left = rect.x
+      const top = rect.y + rect.height
+
+      this.#context.el.style.left = `${left}px`
+      this.#context.el.style.top = `${top}px`
+      this.#context.el.style.display = 'inline-block'
+
+      this.isShow = true
+    }
+  }
+
+  hide (): void {
+    this.isShow = false
+    document.removeEventListener('click', this.#handleDocumentClick, false)
+    if (this.#context.el) {
+      this.#context.el.style.display = 'none'
+    }
   }
 
   #confirm = (): void => {
@@ -211,11 +265,13 @@ export default class ColorPicks extends EventEmitter {
     this.#setMemoryColors()
 
     this.emit('confirm', getColorString(this.state.currentColor, this.options.outputType))
+    this.hide()
   }
 
   #cancel = (): void => {
     console.log('cancel', this)
     this.emit('cancel')
+    this.hide()
   }
 
   #setMemoryColors (): void {
@@ -339,12 +395,41 @@ export default class ColorPicks extends EventEmitter {
       this.#context.alphaBar.setState(this.state)
     }
   }
+
+  #handleElClick = (): void => {
+    console.log('el click.')
+
+    if (!this.isShow) {
+      this.show()
+
+      setTimeout(() => {
+        document.addEventListener('click', this.#handleDocumentClick, false)
+      }, 0)
+    } else {
+      this.hide()
+    }
+  }
+
+  #handleDocumentClick = (e: Event): void => {
+    const target = e.target as HTMLElement
+
+    if (this.#context.el && target.contains(this.#context.el)) {
+      console.log('click outside')
+      this.hide()
+    }
+  }
 }
 
-const colorPicks = new ColorPicks()
+const colorPicks = new ColorPicks('.trigger')
 
-colorPicks.setColor('rgba(255, 0, 0, 0)').mount(document.querySelector('#app')!)
+colorPicks.setColor('rgba(255, 0, 0, 0)')
 
 colorPicks.on('confirm', (color: string) => {
   console.log('confirm', color)
+  const oBtn = document.querySelector<HTMLElement>('.trigger')
+
+  if (oBtn) {
+    oBtn.style.backgroundColor = color
+    oBtn.style.borderColor = color
+  }
 })
