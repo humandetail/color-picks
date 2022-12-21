@@ -163,7 +163,6 @@ export default class ColorPicks extends EventEmitter {
         this.state.initialValue = match.slice(1).map(v => hex2number(v)) as RGBA
       }
     } else if (/^rgb/i.test(color)) {
-      // @todo
       const match = color.match(/^rgba?\((.+?)\)/)
 
       if (match) {
@@ -183,8 +182,6 @@ export default class ColorPicks extends EventEmitter {
             ] as unknown as RGBA
           }
         }
-
-        // this.state.initialValue = match.slice(1).map(v => !v ? 255 : Math.min(255, Math.max(0, Number(v)))) as RGBA
       }
     } else if (color === 'transparent') {
       this.state.initialValue = [0, 0, 0, 0]
@@ -195,7 +192,7 @@ export default class ColorPicks extends EventEmitter {
     return this
   }
 
-  mount (el: HTMLElement): ColorPicks {
+  mount (): ColorPicks {
     const oColorPicks = createElement('div', {
       class: 'color-picks__container'
     })
@@ -210,7 +207,7 @@ export default class ColorPicks extends EventEmitter {
     panelSwitcher.render(oColorPicks)
     panelSwitcher.setState(this.state)
 
-    el.appendChild(oColorPicks)
+    this.el.parentNode!.appendChild(oColorPicks)
 
     this.#context = {
       ...this.#context,
@@ -235,7 +232,7 @@ export default class ColorPicks extends EventEmitter {
 
   show (): void {
     if (!this.mounted) {
-      this.mount(document.body)
+      this.mount()
     }
 
     if (this.el && this.#context.el) {
@@ -321,7 +318,6 @@ export default class ColorPicks extends EventEmitter {
 
   #handleInitialValueChange (val: RGBA): void {
     this.state.currentColor = [...val]
-    // this.state.alpha = val.at(-1) ?? 255
 
     this.state.mainColor = this.#calculateMainColor(val)
   }
@@ -391,8 +387,6 @@ export default class ColorPicks extends EventEmitter {
   }
 
   #handleAlphaChange (): void {
-    // this.state.currentColor = [this.state.currentColor[0], this.state.currentColor[1], this.state.currentColor[2], val]
-
     if (this.#context.alphaBar) {
       this.#context.alphaBar.setState(this.state)
     }
@@ -415,7 +409,7 @@ export default class ColorPicks extends EventEmitter {
   #handleDocumentClick = (e: Event): void => {
     const target = e.target as HTMLElement
 
-    if (this.#context.el && target.contains(this.#context.el)) {
+    if (!this.#context.el?.contains(target)) {
       console.log('click outside')
       this.hide()
     }
@@ -429,6 +423,17 @@ colorPicks.setColor('rgba(255, 0, 0, 0)')
 colorPicks.on('confirm', (color: string) => {
   console.log('confirm', color)
   const oBtn = document.querySelector<HTMLElement>('.trigger')
+
+  if (oBtn) {
+    oBtn.style.backgroundColor = color
+    oBtn.style.borderColor = color
+  }
+})
+
+const colorPicks2 = new ColorPicks('.trigger2')
+colorPicks2.on('confirm', (color: string) => {
+  console.log('confirm', color)
+  const oBtn = document.querySelector<HTMLElement>('.trigger2')
 
   if (oBtn) {
     oBtn.style.backgroundColor = color
