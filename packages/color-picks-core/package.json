@@ -2,7 +2,38 @@
   "name": "color-picks",
   "private": false,
   "version": "0.0.1",
+  "author": "humandetail",
+  "keywords": [
+    "color-picks",
+    "color",
+    "pciker",
+    "picks",
+    "ui"
+  ],
+  "description": "A color picker ui for browser",
   "type": "module",
+  "main": "dist/color-picks.js",
+  "browser": "dist/color-picks.js",
+  "module": "dist/color-picks.js",
+  "files": [
+    "dist/*"
+  ],
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/color-picks.js"
+    }
+  },
+  "unpkg": "dist/color-picks.js",
+  "jsdelivr": "dist/color-picks.js",
+  "homepage": "https://github.com/humandetail/color-picks",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/humandetail/color-picks"
+  },
+  "bugs": {
+    "url": "https://github.com/humandetail/color-picks/issues"
+  },
   "license": "MIT",
   "scripts": {
     "dev": "vite",
@@ -17,6 +48,7 @@
     "sass": "^1.56.1",
     "typescript": "^4.6.4",
     "vite": "^3.2.3",
+    "vite-plugin-dts": "^1.7.0",
     "vitest": "^0.25.4"
   },
   "dependencies": {

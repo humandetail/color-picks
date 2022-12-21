@@ -5,7 +5,7 @@
 import { sizeConfig } from '../../../config'
 import { createElement, getPagePos } from '../../../libs/dom'
 import { getColorString } from '../../../libs/helper'
-import { ColorPicksState } from '../../../main'
+import { ColorPicksState } from '../../..'
 import { RGBA } from '../../../types'
 
 export default class MainColorBar {

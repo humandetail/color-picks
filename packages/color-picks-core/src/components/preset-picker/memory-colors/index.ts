@@ -2,7 +2,7 @@ import { PresetColor } from '..'
 import { MEMORY_COLORS_KEY } from '../../../config'
 import { createElement } from '../../../libs/dom'
 import { getCheckedColor, getColorString, hex2rgba } from '../../../libs/helper'
-import { ColorPicksState } from '../../../main'
+import { ColorPicksState } from '../../..'
 import { RGBA } from '../../../types'
 
 export default class MemoryColors {

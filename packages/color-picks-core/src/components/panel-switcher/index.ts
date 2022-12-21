@@ -1,5 +1,5 @@
 import { createElement } from '../../libs/dom'
-import { ColorPicksState } from '../../main'
+import { ColorPicksState } from '../..'
 
 export type PanelType = 'PresetPicker' | 'ColorPicker'
 

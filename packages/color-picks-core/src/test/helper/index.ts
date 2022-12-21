@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { Window } from 'happy-dom'
 import { mockCanvas } from './mockCanvas'
 

@@ -1,4 +1,4 @@
-//
+// @ts-nocheck
 // Mock Canvas / Context2D calls
 //
 export function mockCanvas (window) {

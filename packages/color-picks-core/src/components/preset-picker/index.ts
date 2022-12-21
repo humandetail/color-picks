@@ -1,6 +1,6 @@
 import { createElement } from '../../libs/dom'
 import { getColorString, hex2rgba } from '../../libs/helper'
-import { ColorPicksState } from '../../main'
+import { ColorPicksState } from '../..'
 import { RGBA } from '../../types'
 import MemoryColors from './memory-colors'
 import PopularColors from './popular-colors'

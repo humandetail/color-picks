@@ -9,7 +9,9 @@ module.exports = {
   ignorePatterns: [
     'index.html',
     'node_modules',
-    'dist'
+    'dist',
+    'vite.config.ts',
+    '*.cjs'
   ],
 
   rules: {

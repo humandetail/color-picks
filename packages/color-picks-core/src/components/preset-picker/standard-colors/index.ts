@@ -1,7 +1,7 @@
 import { PresetColor } from '..'
 import { createElement } from '../../../libs/dom'
 import { getCheckedColor, getColorString, hex2rgba } from '../../../libs/helper'
-import { ColorPicksState } from '../../../main'
+import { ColorPicksState } from '../../..'
 
 export default class StandardColors {
   #colors: PresetColor[]

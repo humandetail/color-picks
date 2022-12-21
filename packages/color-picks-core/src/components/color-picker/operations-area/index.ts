@@ -4,7 +4,7 @@
 
 import { createElement } from '../../../libs/dom'
 import { getColorString, hex2rgba } from '../../../libs/helper'
-import { ColorPicksState } from '../../../main'
+import { ColorPicksState } from '../../..'
 
 export default class OperationsArea {
   state: ColorPicksState | null = null

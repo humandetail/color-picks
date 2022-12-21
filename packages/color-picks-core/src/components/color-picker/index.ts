@@ -4,7 +4,7 @@ import PickingArea from './picking-area'
 import MainColorBar from './main-color-bar'
 import AlphaBar from './alpha-bar'
 import OperationsArea from './operations-area'
-import { ColorPicksState } from '../../main'
+import { ColorPicksState } from '../..'
 
 export default class ColorPicker {
   el: HTMLDivElement | null = null

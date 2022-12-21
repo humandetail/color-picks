@@ -2,7 +2,7 @@ import { PresetColor } from '..'
 import colorsConfig from '../../../config/colors.config'
 import { createElement } from '../../../libs/dom'
 import { getCheckedColor, getColorString, hex2rgba } from '../../../libs/helper'
-import { ColorPicksState } from '../../../main'
+import { ColorPicksState } from '../../..'
 
 export default class PopularColors {
   el: HTMLElement | null = null
