@@ -1,3 +1,5 @@
+import { computePosition, autoPlacement, shift } from '@floating-ui/dom'
+
 import ColorPicker from './components/color-picker'
 import PresetPicker from './components/preset-picker'
 
@@ -237,16 +239,16 @@ export default class ColorPicks extends EventEmitter {
     }
 
     if (this.el && this.#context.el) {
-      const rect = this.el.getBoundingClientRect()
+      this.#context.el.style.display = 'block'
 
-      // 获取位置
-      // @todo
-      const left = rect.x
-      const top = rect.y + rect.height
-
-      this.#context.el.style.left = `${left}px`
-      this.#context.el.style.top = `${top}px`
-      this.#context.el.style.display = 'inline-block'
+      computePosition(this.el, this.#context.el, {
+        middleware: [autoPlacement(), shift()]
+      }).then(({ x, y }) => {
+        Object.assign(this.#context.el!.style, {
+          left: `${x}px`,
+          top: `${y}px`
+        })
+      })
 
       this.isShow = true
     }

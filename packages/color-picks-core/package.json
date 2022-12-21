@@ -13,5 +13,8 @@
     "sass": "^1.56.1",
     "typescript": "^4.6.4",
     "vite": "^3.2.3"
+  },
+  "dependencies": {
+    "@floating-ui/dom": "^1.0.12"
   }
 }
