@@ -49,6 +49,12 @@ importers:
       typescript: ^4.6.4
       vite: ^3.2.3
       vitest: ^0.25.4
+      '@floating-ui/dom': ^1.0.12
+      sass: ^1.56.1
+      typescript: ^4.6.4
+      vite: ^3.2.3
+    dependencies:
+      '@floating-ui/dom': 1.0.12
     devDependencies:
       '@vitest/coverage-c8': 0.25.4_32bectir4jwfrzzeqodcdh256u
       happy-dom: 8.1.0
@@ -315,6 +321,16 @@ packages:
     transitivePeerDependencies:
       - supports-color
     dev: true
+
+  /@floating-ui/core/1.0.4:
+    resolution: {integrity: sha512-FPFLbg2b06MIw1dqk2SOEMAMX3xlrreGjcui5OTxfBDtaKTmh0kioOVjT8gcfl58juawL/yF+S+gnq8aUYQx/Q==}
+    dev: false
+
+  /@floating-ui/dom/1.0.12:
+    resolution: {integrity: sha512-HeG/wHoa2laUHlDX3xkzqlUqliAfa+zqV04LaKIwNCmCNaW2p0fQi4/Kd0LB4GdFoJ2UllLFq5gWnXAd67lg7w==}
+    dependencies:
+      '@floating-ui/core': 1.0.4
+    dev: false
 
   /@humanwhocodes/config-array/0.11.7:
     resolution: {integrity: sha512-kBbPWzN8oVMLb0hOUYXhmxggL/1cJE6ydvjDIGi9EnAGUyA7cLVKQg+d/Dsm+KZwx2czGHrCmMVLiyg8s5JPKw==}
