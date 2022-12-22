@@ -22,7 +22,8 @@
   "exports": {
     ".": {
       "import": "./dist/color-picks.js"
-    }
+    },
+    "./index.css": "./dist/style.css"
   },
   "unpkg": "dist/color-picks.js",
   "jsdelivr": "dist/color-picks.js",

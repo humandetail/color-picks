@@ -415,28 +415,3 @@ export default class ColorPicks extends EventEmitter {
     }
   }
 }
-
-const colorPicks = new ColorPicks('.trigger')
-
-colorPicks.setColor('rgba(255, 0, 0, 0)')
-
-colorPicks.on('confirm', (color: string) => {
-  console.log('confirm', color)
-  const oBtn = document.querySelector<HTMLElement>('.trigger')
-
-  if (oBtn) {
-    oBtn.style.backgroundColor = color
-    oBtn.style.borderColor = color
-  }
-})
-
-const colorPicks2 = new ColorPicks('.trigger2')
-colorPicks2.on('confirm', (color: string) => {
-  console.log('confirm', color)
-  const oBtn = document.querySelector<HTMLElement>('.trigger2')
-
-  if (oBtn) {
-    oBtn.style.backgroundColor = color
-    oBtn.style.borderColor = color
-  }
-})
