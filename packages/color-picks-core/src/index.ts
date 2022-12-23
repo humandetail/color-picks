@@ -1,22 +1,22 @@
-import { computePosition, autoPlacement, shift } from '@floating-ui/dom'
-
-import ColorPicker from './components/color-picker'
-import PresetPicker from './components/preset-picker'
-
 import './assets/styles/index.scss'
-import PanelSwitcher, { PanelType } from './components/panel-switcher'
-import { createElement } from './libs/dom'
-import EventEmitter from './libs/EventEmitter'
+
 import { OutputType, RGBA } from './types'
-import PickingArea from './components/color-picker/picking-area'
-import MainColorBar from './components/color-picker/main-color-bar'
-import AlphaBar from './components/color-picker/alpha-bar'
-import OperationsArea from './components/color-picker/operations-area'
+import PanelSwitcher, { PanelType } from './components/panel-switcher'
+import { autoPlacement, computePosition, shift } from '@floating-ui/dom'
 import { getColorString, hex2number } from './libs/helper'
+
+import AlphaBar from './components/color-picker/alpha-bar'
+import ColorPicker from './components/color-picker'
+import EventEmitter from './libs/EventEmitter'
 import { MEMORY_COLORS_KEY } from './config'
-import PopularColors from './components/preset-picker/popular-colors'
+import MainColorBar from './components/color-picker/main-color-bar'
 import MemoryColors from './components/preset-picker/memory-colors'
+import OperationsArea from './components/color-picker/operations-area'
+import PickingArea from './components/color-picker/picking-area'
+import PopularColors from './components/preset-picker/popular-colors'
+import PresetPicker from './components/preset-picker'
 import StandardColors from './components/preset-picker/standard-colors'
+import { createElement } from './libs/dom'
 
 export interface ColorPicksState {
   initialValue: RGBA
