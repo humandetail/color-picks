@@ -1,8 +1,42 @@
 {
   "name": "react-color-picks",
-  "private": true,
+  "private": false,
   "version": "0.0.0",
+  "author": "humandetail",
+  "keywords": [
+    "color-picks",
+    "color",
+    "picker",
+    "picks",
+    "ui",
+    "react"
+  ],
+  "description": "A color picker ui for browser",
   "type": "module",
+  "main": "dist/react-color-picks.js",
+  "browser": "dist/react-color-picks.js",
+  "module": "dist/react-color-picks.js",
+  "files": [
+    "dist/*"
+  ],
+  "types": "dist/main.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/react-color-picks.js"
+    },
+    "./index.css": "./dist/style.css"
+  },
+  "unpkg": "dist/react-color-picks.js",
+  "jsdelivr": "dist/react-color-picks.js",
+  "homepage": "https://github.com/humandetail/color-picks",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/humandetail/color-picks"
+  },
+  "bugs": {
+    "url": "https://github.com/humandetail/color-picks/issues"
+  },
+  "license": "MIT",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
@@ -15,7 +49,8 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "typescript": "^4.9.3",
-    "vite": "^4.0.0"
+    "vite": "^4.0.0",
+    "vite-plugin-dts": "^1.7.0"
   },
   "dependencies": {
     "color-picks": "workspace:^0.0.1"
