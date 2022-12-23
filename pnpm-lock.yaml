@@ -91,6 +91,7 @@ importers:
       color-picks: workspace:^0.0.1
       typescript: ^4.6.4
       vite: ^3.0.7
+      vite-plugin-dts: ^1.7.0
       vue: ^3.2.37
       vue-tsc: ^0.39.5
     devDependencies:
@@ -98,6 +99,7 @@ importers:
       color-picks: link:../color-picks-core
       typescript: 4.8.4
       vite: 3.2.3
+      vite-plugin-dts: 1.7.0_vite@3.2.3
       vue: 3.2.45
       vue-tsc: 0.39.5_typescript@4.8.4
 
@@ -5092,7 +5094,7 @@ packages:
       fs-extra: 10.1.0
       kolorist: 1.6.0
       ts-morph: 16.0.0
-      vite: 3.2.3_sass@1.56.1
+      vite: 3.2.3
     transitivePeerDependencies:
       - supports-color
     dev: true
