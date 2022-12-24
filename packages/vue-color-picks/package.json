@@ -7,6 +7,10 @@
   "main": "dist/vue-color-picks.js",
   "module": "dist/vue-color-picks.js",
   "browser": "dist/vue-color-picks.cjs",
+  "exports": {
+    "./*": "./dist/*",
+    "/index.css": "./dist/index.css"
+  },
   "files": [
     "dist/*"
   ],
