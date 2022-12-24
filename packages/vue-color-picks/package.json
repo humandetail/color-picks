@@ -1,7 +1,7 @@
 {
   "name": "vue-color-picks",
   "private": true,
-  "version": "0.2.0",
+  "version": "0.2.1",
   "type": "module",
   "types": "dist/VueColorPicks.vue.d.ts",
   "main": "dist/vue-color-picks.js",
