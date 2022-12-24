@@ -111,6 +111,7 @@ importers:
     specifiers:
       '@vitejs/plugin-vue': ^3.0.3
       color-picks: workspace:^0.2.1
+      release-it: ^15.5.1
       typescript: ^4.6.4
       vite: ^3.0.7
       vite-plugin-dts: ^1.7.0
@@ -120,6 +121,7 @@ importers:
       color-picks: link:../color-picks-core
     devDependencies:
       '@vitejs/plugin-vue': 3.2.0_vite@3.2.3+vue@3.2.45
+      release-it: 15.5.1
       typescript: 4.8.4
       vite: 3.2.3
       vite-plugin-dts: 1.7.0_vite@3.2.3
@@ -353,6 +355,11 @@ packages:
 
   /@babel/types/7.20.5:
     resolution: {integrity: sha512-c9fst/h2/dcF7H+MJKZ2T0KjEQ8hY/BNnDk/H3XY8C4Aw/eWQXWn/lWntHF9ooUBnGmEvbfGrTgLWc+um0YDUg==}
+    engines: {node: '>=6.9.0'}
+    dependencies:
+      '@babel/helper-string-parser': 7.19.4
+      '@babel/helper-validator-identifier': 7.19.1
+      to-fast-properties: 2.0.0
     dev: true
 
   /@babel/types/7.20.7:
