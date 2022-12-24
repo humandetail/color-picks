@@ -8,8 +8,10 @@
   "module": "dist/vue-color-picks.js",
   "browser": "dist/vue-color-picks.cjs",
   "exports": {
-    "./*": "./dist/*",
-    "/index.css": "./dist/index.css"
+    ".": {
+      "import": "./dist/vue-color-picks.js"
+    },
+    "./index.css": "./dist/style.css"
   },
   "files": [
     "dist/*"
