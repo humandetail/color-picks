@@ -4,6 +4,7 @@ import './style.css'
 import 'color-picks/index.css'
 
 import './react'
+import './vue'
 
 const bgColorPicks = new ColorPicks('.btn-bg')
 
