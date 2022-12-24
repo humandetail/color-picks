@@ -7,11 +7,9 @@
   // width: 312px; // 256 + 8 + 16 + 32
   inset: 0;
   padding: 32px 16px 16px;
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
   border-radius: 4px;
-  background-color: #353535;
+  background-color: var(--background-color);
   box-sizing: border-box;
-  box-shadow: 0 0 4px #ddd;
   visibility: hidden;
 
   .color_picks__custom_picker__header {
@@ -22,10 +20,10 @@
     padding: 0;
     width: 100%;
     padding-left: 16px;
-    font-size: 14px;
+    font-size: 12px;
     line-height: 26px;
-    color: #ccc;
-    border-bottom: 1px solid rgb(75, 75, 75);
+    color: var(--title-color);
+    border-bottom: 1px solid var(--border-color);
     box-sizing: border-box;
   }
 
@@ -46,7 +44,7 @@
       width: 12px;
       height: 12px;
       border-radius: 50%;
-      border: 2px solid #333;
+      border: 2px solid var(--border-color);
       box-sizing: border-box;
       transform: translate(-6px, -6px);
     }
@@ -69,7 +67,7 @@
       top: 0;
       width: var(--width);
       height: var(--width);
-      background-color: #b1b1b1;
+      background-color: var(--border-color);
       clip-path: ellipse(var(--width) var(--width) at 100% 0);
       transform-origin: right top;
       transform: rotate(45deg);
@@ -82,7 +80,7 @@
         width: calc(100% - 2px);
         height: calc(100% - 2px);
         clip-path: ellipse(100% 100% at 100% 0);
-        background-color: #fff;
+        background-color: var(--pure-color);
         transform-origin: right top;
       }
     }
@@ -97,6 +95,7 @@
       position: absolute;
       inset: 0;
       z-index: 1;
+      border: 1px solid var(--border-color);
       background: #fff url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAADFJREFUOE9jZGBgEGHAD97gk2YcNYBhmIQBgWSAP52AwoAQwJvQRg1gACckQoC2gQgAIF8IscwEtKYAAAAASUVORK5CYII=") left center
     }
 
@@ -106,7 +105,7 @@
       top: -100%;
       width: var(--height);
       height: var(--height);
-      background-color: #b1b1b1;
+      background-color: var(--border-color);
       clip-path: ellipse(100% 100% at 0 100%);
       transform-origin: left bottom;
       transform: rotate(-45deg);
@@ -119,7 +118,7 @@
         width: calc(100% - 2px);
         height: calc(100% - 2px);
         clip-path: ellipse(100% 100% at 0 100%);
-        background-color: #fff;
+        background-color: var(--pure-color);
         transform-origin: left bottom;
       }
     }
@@ -141,7 +140,7 @@
       font-size: 14px;
       border: 0;
       outline: 0;
-      color: #fff;
+      color: var(--pure-color);
       background-color: transparent;
     }
 
@@ -155,7 +154,7 @@
         align-items: center;
         justify-content: space-between;
         font-size: 12px;
-        color: #ccc;
+        color: var(--input-color);
 
         .rgba-input__input {
           width: 40px;
@@ -164,11 +163,11 @@
           padding: 0 3px;
           font-size: 14px;
           border-radius: 2px;
-          border: 1px solid #ccc; 
-          background-color: #252525;
+          border: 1px solid currentColor; 
+          background-color: var(--input-background);
   
           &:focus {
-            border-color: #0088ff; 
+            border-color: var(--primary-color); 
           }
         }
       }
@@ -181,8 +180,8 @@
       padding: 3px 3px 3px;
       margin-left: 16px;
       border-radius: 2px;
-      border: 1px solid #ccc; 
-      background-color: #252525;
+      border: 1px solid var(--input-color); 
+      background-color: var(--input-background);
 
       &::before {
         content: '#';
@@ -192,11 +191,11 @@
         width: 14px;
         height: 14px;
         line-height: 14px;
-        color: #eee;
+        color: var(--input-color);
       }
 
       &:focus-within {
-        border-color: #0088ff; 
+        border-color: var(--primary-color); 
       }
 
       .hex-input__input {
@@ -207,7 +206,7 @@
         position: relative;
         width: 14px;
         height: 14px;
-        box-shadow: 0 0 1px #f1f1f1;
+        box-shadow: 0 0 1px var(--pure-color);
 
         &::before {
           content: '';
@@ -240,20 +239,15 @@
         height: 24px;
         font-size: 12px;
         border-radius: 2px;
-        color: #ccc;
-        border: 1px solid #ccc;
+        color: var(--btn-color);
+        border: 1px solid var(--btn-color);
         background-color: transparent;
         cursor: pointer;
 
         &:hover {
-          color: #0088ff;
-          border-color: #0088ff;
+          color: var(--primary-color);
+          border-color: var(--primary-color);
         }
-
-        // &.btns__btn-confirm {
-        //   background-color: #0088ff;
-        //   border-color: #00aaff;
-        // }
       }
     }
   }

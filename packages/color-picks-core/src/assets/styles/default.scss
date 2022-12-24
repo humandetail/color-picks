@@ -4,4 +4,31 @@
   position: fixed;
   width: 312px;
   height: 408px;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  border-radius: 4px;
+  box-shadow: 0 0 1px var(--pure-color);
+
+  --primary-color: #0088ff;
+  --pure-color: #fff;
+  --background-color: #444;
+  --title-color: #ccc;
+  --border-color: #575757;
+  --input-color: #ccc; 
+  --input-background: #333;
+  --input-box-shadow: #f1f1f1;
+  --btn-color: #ccc;
+  --switcher-color: #777;
+
+  &.light-theme {
+    --primary-color: #0088ff;
+    --pure-color: #333;
+    --background-color: #fff;
+    --title-color: #787878;
+    --border-color: #f4f4f4;
+    --input-color: #5c5c5c; 
+    --input-background: #fff;
+    --input-box-shadow: rgb(235, 235, 235);
+    --btn-color: #2c2c2c;
+    --switcher-color: #777;
+  }
 }

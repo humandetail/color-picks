@@ -52,7 +52,8 @@ export interface ColorPicksContext {
 }
 
 export interface ColorPicksOptions {
-  outputType?: OutputType
+  outputType: OutputType
+  theme: 'light' | 'dark'
 }
 
 type ElType = string | HTMLElement
@@ -67,7 +68,7 @@ export default class ColorPicks extends EventEmitter {
   isShow = false
   mounted = false
 
-  constructor (triggerElement: ElType, options: ColorPicksOptions = {}) {
+  constructor (triggerElement: ElType, options: Partial<ColorPicksOptions> = {}) {
     super()
 
     const oEl = typeof triggerElement === 'string'
@@ -82,7 +83,8 @@ export default class ColorPicks extends EventEmitter {
     this.el = oEl
 
     this.options = Object.assign({}, {
-      outputType: 'HEX'
+      outputType: 'HEX',
+      theme: 'dark'
     }, options)
 
     // eslint-disable-next-line @typescript-eslint/no-this-alias
@@ -199,7 +201,7 @@ export default class ColorPicks extends EventEmitter {
 
   mount (): ColorPicks {
     const oColorPicks = createElement('div', {
-      class: 'color-picks__container'
+      class: `color-picks__container ${this.options.theme}-theme`
     })
 
     const colorPicker = new ColorPicker(this.state)
