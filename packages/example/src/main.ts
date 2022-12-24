@@ -3,6 +3,8 @@ import './style.css'
 
 import 'color-picks/index.css'
 
+import './react'
+
 const bgColorPicks = new ColorPicks('.btn-bg')
 
 bgColorPicks.on('confirm', color => {
