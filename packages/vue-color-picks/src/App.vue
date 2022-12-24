@@ -7,7 +7,10 @@ const color = ref('')
 
 <template>
   <div>
-    <div :style="`margin:10px;background:${color}`">PREVIEW</div>
+    <div :style="{
+      margin: '10px',
+      background: color
+    }">PREVIEW</div>
 
     <VueColorPicks v-model="color">
       trigger
