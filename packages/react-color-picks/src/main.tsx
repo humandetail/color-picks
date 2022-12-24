@@ -1,14 +1,18 @@
 import React, { FC, useEffect, useRef, PropsWithChildren } from 'react'
-import ColorPicks from 'color-picks'
+import ColorPicks, { ColorPicksOptions } from 'color-picks'
 import 'color-picks/index.css'
 
 export interface ReactColorPicksProps extends PropsWithChildren {
   value?: string
+  outputType?: ColorPicksOptions['outputType']
+  theme?: ColorPicksOptions['theme']
   onChange?: (color: string) => unknown
 }
 
 const ReactColorPicks: FC<ReactColorPicksProps> = ({
   value,
+  outputType,
+  theme,
   children,
   onChange
 }) => {
@@ -17,7 +21,10 @@ const ReactColorPicks: FC<ReactColorPicksProps> = ({
 
   useEffect(() => {
     if (targetRef.current) {
-      const colorPicks = new ColorPicks(targetRef.current)
+      const colorPicks = new ColorPicks(targetRef.current, {
+        outputType: outputType ?? 'HEX',
+        theme: theme ?? 'dark'
+      })
       colorPicks.setColor(value ?? '#ffffff')
       colorPicks.on('confirm', (val: string) => {
         handleChange(val)
