@@ -3,6 +3,7 @@
     "release": true
   },
   "git": {
+    "tagName": "${npm.name}-${version}",
     "commitMessage": "chore: release v${version}"
   },
   "npm": {
