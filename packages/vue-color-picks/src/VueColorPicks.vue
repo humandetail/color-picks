@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { ref, onMounted, onScopeDispose } from 'vue'
-import ColorPicks from 'color-picks'
+import ColorPicks, { ColorPicksOptions } from 'color-picks'
 
 const emits = defineEmits<{
   (event: 'update:modelValue', value: string): void
@@ -9,8 +9,10 @@ const emits = defineEmits<{
   (event: 'cancel'): void
 }>()
 
-defineProps<{
+const props = defineProps<{
   modelValue: string
+  outputType?: ColorPicksOptions['outputType']
+  theme?: ColorPicksOptions['theme']
 }>()
 
 const picksRef = ref<HTMLElement>()
@@ -26,7 +28,10 @@ function onCancel (): void {
 }
 
 function initialPicks (): void {
-  instanceRef.value = new ColorPicks(picksRef.value!)
+  instanceRef.value = new ColorPicks(picksRef.value!, {
+    outputType: props.outputType ?? 'HEX',
+    theme: props.theme ?? 'dark'
+  })
 
   instanceRef.value.on('cancel', onCancel)
   instanceRef.value.on('confirm', onConfirm)

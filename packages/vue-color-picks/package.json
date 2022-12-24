@@ -1,7 +1,7 @@
 {
   "name": "vue-color-picks",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.2.0",
   "type": "module",
   "types": "dist/VueColorPicks.vue.d.ts",
   "main": "dist/vue-color-picks.js",
@@ -16,6 +16,17 @@
   "files": [
     "dist/*"
   ],
+  "unpkg": "dist/vue-color-picks.js",
+  "jsdelivr": "dist/vue-color-picks.js",
+  "homepage": "https://github.com/humandetail/color-picks/tree/main/packages/vue-color-picks",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/humandetail/color-picks/tree/main/packages/vue-color-picks"
+  },
+  "bugs": {
+    "url": "https://github.com/humandetail/color-picks/issues"
+  },
+  "license": "MIT",
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build",
@@ -23,11 +34,13 @@
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^3.0.3",
-    "color-picks": "workspace:^0.0.1",
     "typescript": "^4.6.4",
     "vite": "^3.0.7",
     "vite-plugin-dts": "^1.7.0",
     "vue": "^3.2.37",
     "vue-tsc": "^0.39.5"
+  },
+  "dependencies": {
+    "color-picks": "workspace:^0.2.1"
   }
 }
