@@ -178,6 +178,13 @@ export default class OperationsArea {
     ) {
       e.preventDefault()
     }
+
+    if (e.key === 'Enter') {
+      const target = e.target as HTMLInputElement
+
+      target.blur()
+      this.#handleConfirm()
+    }
   }
 
   #handleHexInputBlur = (e: Event): void => {
@@ -225,6 +232,13 @@ export default class OperationsArea {
     const allowKeys = ['Backspace', 'Tab', 'Enter']
     if (!/^\d+$/.test(e.key) && !allowKeys.includes(e.key)) {
       e.preventDefault()
+    }
+
+    if (e.key === 'Enter') {
+      const target = e.target as HTMLInputElement
+
+      target.blur()
+      this.#handleConfirm()
     }
   }
 
