@@ -282,7 +282,10 @@ export default class ColorPicks extends EventEmitter {
     // 过滤非法数据
     memoryColors = memoryColors.filter(color => Array.isArray(color) && color.length === 4 && getColorString(color) !== getColorString(this.state.currentColor))
 
-    memoryColors.unshift(this.state.currentColor)
+    // 不再记录透明色
+    if (this.state.currentColor.at(-1) !== 0) {
+      memoryColors.unshift(this.state.currentColor)
+    }
 
     if (memoryColors.length > 10) {
       memoryColors.length = 10
