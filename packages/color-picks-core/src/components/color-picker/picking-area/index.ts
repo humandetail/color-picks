@@ -125,6 +125,10 @@ export default class PickingArea {
       return
     }
 
+    if (this.state) {
+      this.state.isPicking = true
+    }
+
     this.#elRect = this.el.getBoundingClientRect()
     this.#handleMousEvent(e)
 
@@ -138,6 +142,12 @@ export default class PickingArea {
 
   #handleMouseup = (e: MouseEvent): void => {
     this.#handleMousEvent(e)
+
+    setTimeout(() => {
+      if (this.state) {
+        this.state.isPicking = false
+      }
+    })
 
     window.removeEventListener('mousemove', this.#handleMousemove, false)
     window.removeEventListener('mouseup', this.#handleMouseup, false)

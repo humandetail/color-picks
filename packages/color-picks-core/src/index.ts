@@ -28,6 +28,9 @@ export interface ColorPicksState {
   currentColor: RGBA
   setCurrentFlag: boolean
   panel: PanelType
+
+  isPicking: boolean
+
   confirm: () => void
   cancel: () => void
 }
@@ -91,6 +94,7 @@ export default class ColorPicks extends EventEmitter {
       currentColor: [255, 255, 255, 255],
       setCurrentFlag: true,
       panel: 'PresetPicker',
+      isPicking: false,
       confirm: _this.#confirm,
       cancel: _this.#cancel
     }, {
@@ -403,7 +407,7 @@ export default class ColorPicks extends EventEmitter {
   #handleDocumentClick = (e: Event): void => {
     const target = e.target as HTMLElement
 
-    if (!this.#context.el?.contains(target)) {
+    if (!this.#context.el?.contains(target) && !this.state.isPicking) {
       this.hide()
     }
   }
