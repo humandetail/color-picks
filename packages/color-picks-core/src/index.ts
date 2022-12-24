@@ -5,17 +5,21 @@ import PanelSwitcher, { PanelType } from './components/panel-switcher'
 import { autoPlacement, computePosition, shift } from '@floating-ui/dom'
 import { getColorString, hex2number } from './libs/helper'
 
-import AlphaBar from './components/color-picker/alpha-bar'
-import ColorPicker from './components/color-picker'
+import ColorPicker, {
+  PickingArea,
+  MainColorBar,
+  AlphaBar,
+  OperationsArea
+} from './components/color-picker'
+
+import PresetPicker, {
+  MemoryColors,
+  PopularColors,
+  StandardColors
+} from './components/preset-picker'
+
 import EventEmitter from './libs/EventEmitter'
 import { MEMORY_COLORS_KEY } from './config'
-import MainColorBar from './components/color-picker/main-color-bar'
-import MemoryColors from './components/preset-picker/memory-colors'
-import OperationsArea from './components/color-picker/operations-area'
-import PickingArea from './components/color-picker/picking-area'
-import PopularColors from './components/preset-picker/popular-colors'
-import PresetPicker from './components/preset-picker'
-import StandardColors from './components/preset-picker/standard-colors'
 import { createElement } from './libs/dom'
 
 export interface ColorPicksState {
@@ -60,16 +64,16 @@ export default class ColorPicks extends EventEmitter {
   isShow = false
   mounted = false
 
-  constructor (el: ElType, options: ColorPicksOptions = {}) {
+  constructor (triggerElement: ElType, options: ColorPicksOptions = {}) {
     super()
 
-    const oEl = typeof el === 'string'
-      ? document.querySelector<HTMLElement>(el)
-      : el
+    const oEl = typeof triggerElement === 'string'
+      ? document.querySelector<HTMLElement>(triggerElement)
+      : triggerElement
 
     if (!oEl || !('innerHTML' in oEl)) {
       // eslint-disable-next-line @typescript-eslint/no-base-to-string, @typescript-eslint/restrict-template-expressions
-      throw new TypeError(`'el' expeact a selector or a HTML element, but got '${el}'`)
+      throw new TypeError(`'triggerElement' expeact a selector or a HTML element, but got '${triggerElement}'`)
     }
 
     this.el = oEl
@@ -112,9 +116,6 @@ export default class ColorPicks extends EventEmitter {
             _this.#handleCurrentColorChange()
             _this.#handleAlphaChange()
             break
-          // case 'alpha':
-          //   _this.#handleAlphaChange(value as number)
-          //   break
           case 'setCurrentFlag':
             _this.state.mainColor = _this.#calculateMainColor(_this.state.currentColor)
             break
@@ -260,7 +261,6 @@ export default class ColorPicks extends EventEmitter {
   }
 
   #confirm = (): void => {
-    console.log('confirm', this)
     this.#setMemoryColors()
 
     this.emit('confirm', getColorString(this.state.currentColor, this.options.outputType))
@@ -268,7 +268,6 @@ export default class ColorPicks extends EventEmitter {
   }
 
   #cancel = (): void => {
-    console.log('cancel', this)
     this.emit('cancel')
     this.hide()
   }
@@ -290,8 +289,6 @@ export default class ColorPicks extends EventEmitter {
     if (this.#context.memoryColors) {
       this.#context.memoryColors.setColor()
     }
-
-    console.log('set memory', memoryColors)
   }
 
   #handlePanelChange (type: PanelType): void {
@@ -304,7 +301,6 @@ export default class ColorPicks extends EventEmitter {
           this.#context.presetPicker.el.style.visibility = 'hidden'
           this.#context.colorPicker.el.style.visibility = 'visible'
           this.state.mainColor = this.#calculateMainColor(this.state.currentColor)
-          // this.#handleCurrentColorChange()
           break
         case 'PresetPicker':
           this.#context.presetPicker.el.style.visibility = 'visible'
@@ -393,8 +389,6 @@ export default class ColorPicks extends EventEmitter {
   }
 
   #handleElClick = (): void => {
-    console.log('el click.')
-
     if (!this.isShow) {
       this.show()
 
@@ -410,7 +404,6 @@ export default class ColorPicks extends EventEmitter {
     const target = e.target as HTMLElement
 
     if (!this.#context.el?.contains(target)) {
-      console.log('click outside')
       this.hide()
     }
   }

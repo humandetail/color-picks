@@ -6,6 +6,12 @@ import MemoryColors from './memory-colors'
 import PopularColors from './popular-colors'
 import StandardColors from './standard-colors'
 
+export {
+  MemoryColors,
+  PopularColors,
+  StandardColors
+}
+
 export interface PresetColor {
   value: RGBA
   name?: string

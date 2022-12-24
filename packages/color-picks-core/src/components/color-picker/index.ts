@@ -6,6 +6,13 @@ import AlphaBar from './alpha-bar'
 import OperationsArea from './operations-area'
 import { ColorPicksState } from '../..'
 
+export {
+  PickingArea,
+  MainColorBar,
+  AlphaBar,
+  OperationsArea
+}
+
 export default class ColorPicker {
   el: HTMLDivElement | null = null
 
