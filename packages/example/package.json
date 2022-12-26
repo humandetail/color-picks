@@ -15,11 +15,11 @@
     "vite": "^4.0.0"
   },
   "dependencies": {
-    "color-picks": "workspace:^0.0.1",
+    "color-picks": "workspace:*",
     "react": "^18.2.0",
-    "react-color-picks": "workspace:^0.0.0",
+    "react-color-picks": "workspace:*",
     "react-dom": "^18.2.0",
     "vue": "^3.2.37",
-    "vue-color-picks": "workspace:^0.0.0"
+    "vue-color-picks": "workspace:*"
   }
 }
