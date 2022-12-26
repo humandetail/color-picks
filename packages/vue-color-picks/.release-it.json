@@ -12,7 +12,7 @@
   "hooks": {
     "after:bump": ["npm run build"],
     "after:git:release": "echo After git push, before github release",
-    "after:release": ["pnpm release", "echo Successfully released ${name} v${version} to ${repo.repository}."]
+    "after:release": ["pnpm publish", "echo Successfully released ${name} v${version} to ${repo.repository}."]
   },
   "plugins": {
     "@release-it/conventional-changelog": {
