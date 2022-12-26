@@ -31,7 +31,7 @@
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build",
     "preview": "vite preview",
-    "release": "release-it --npm.pnpm --ci"
+    "release": "release-it --npm.pnpm --ci --npm.publishArgs=-r"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^3.0.3",
