@@ -7,9 +7,6 @@
     "commitMessage": "chore(vue): release v${version}"
   },
   "npm": {
-    "publish": false
-  },
-  "pnpm": {
     "publish": true
   },
   "hooks": {
