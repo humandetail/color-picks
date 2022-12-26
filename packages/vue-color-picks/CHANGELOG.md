@@ -1,5 +1,7 @@
 
 
+## [0.4.3](https://github.com/humandetail/color-picks/compare/vue-color-picks-0.4.2...${npm.name}-0.4.3) (2022-12-26)
+
 ## [0.4.2](https://github.com/humandetail/color-picks/compare/vue-color-picks-0.4.1...${npm.name}-0.4.2) (2022-12-26)
 
 ## [0.4.1](https://github.com/humandetail/color-picks/compare/vue-color-picks-0.4.0...${npm.name}-0.4.1) (2022-12-26)
