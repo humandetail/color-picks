@@ -7,7 +7,7 @@ export default defineConfig({
   plugins: [vue(), dts()],
   build: {
     lib: {
-      entry: './src/VueColorPicks.vue',
+      entry: './src/VueColorPicks/index.ts',
       name: '[name]',
       formats: ['cjs', 'es']
     },

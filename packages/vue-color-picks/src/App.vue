@@ -1,18 +1,21 @@
 <script setup lang="ts">
-import VueColorPicks from './VueColorPicks.vue'
+import VueColorPicks from './VueColorPicks/index'
 import { ref } from 'vue'
 
-const color = ref('')
+const backgroundColor = ref('')
+
+function onChange (_color: string): void {
+  console.log('🎏 7: _color', _color)
+}
 </script>
 
 <template>
   <div>
-    <div :style="{
-      margin: '10px',
-      background: color
-    }">PREVIEW</div>
+    <div :style="{backgroundColor}">
+      <span style="filter:grayscale(1) contrast(999) invert(1);">PREVIEW</span>
+    </div>
 
-    <VueColorPicks v-model="color">
+    <VueColorPicks v-model="backgroundColor" @change="onChange">
       trigger
     </VueColorPicks>
   </div>

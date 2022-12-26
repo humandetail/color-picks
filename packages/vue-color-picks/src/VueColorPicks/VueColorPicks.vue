@@ -4,15 +4,16 @@ import ColorPicks, { ColorPicksOptions } from 'color-picks'
 
 const emits = defineEmits<{
   (event: 'update:modelValue', value: string): void
-  (event: 'outside-click', value: string): void
-  (event: 'confirm', value: string): void
+  (event: 'update:value', value: string): void
+  (event: 'change', value: string): void
   (event: 'cancel'): void
 }>()
 
 const props = defineProps<{
-  modelValue: string
-  outputType?: ColorPicksOptions['outputType']
+  value?: string
+  modelValue?: string
   theme?: ColorPicksOptions['theme']
+  outputType?: ColorPicksOptions['outputType']
 }>()
 
 const picksRef = ref<HTMLElement>()
@@ -21,6 +22,8 @@ const instanceRef = ref<InstanceType<typeof ColorPicks>>()
 
 function onConfirm (color: string): void {
   emits('update:modelValue', color)
+  emits('update:value', color)
+  emits('change', color)
 }
 
 function onCancel (): void {
