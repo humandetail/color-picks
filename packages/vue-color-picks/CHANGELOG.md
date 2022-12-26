@@ -1,5 +1,12 @@
 
 
+## [0.5.3](https://github.com/humandetail/color-picks/compare/vue-color-picks-0.5.2...${npm.name}-0.5.3) (2022-12-26)
+
+
+### Features
+
+* support value field ([86c7d01](https://github.com/humandetail/color-picks/commit/86c7d0159cd4cdd7db6d85d1ab31a2ad608c38a7))
+
 ## [0.5.2](https://github.com/humandetail/color-picks/compare/vue-color-picks-0.4.5...${npm.name}-0.5.2) (2022-12-26)
 
 ## [0.4.5](https://github.com/humandetail/color-picks/compare/vue-color-picks-0.4.4...${npm.name}-0.4.5) (2022-12-26)
