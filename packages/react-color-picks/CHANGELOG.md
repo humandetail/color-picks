@@ -1,5 +1,7 @@
 
 
+## [0.2.3](https://github.com/humandetail/color-picks/compare/react-color-picks-0.2.2...${npm.name}-0.2.3) (2022-12-26)
+
 ## 0.2.2 (2022-12-24)
 
 
