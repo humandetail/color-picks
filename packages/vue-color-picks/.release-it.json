@@ -6,7 +6,7 @@
     "tagName": "${npm.name}-${version}",
     "commitMessage": "chore(vue): release v${version}"
   },
-  "npm": {
+  "pnpm": {
     "publish": true
   },
   "hooks": {
