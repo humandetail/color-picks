@@ -1,28 +1,42 @@
-import { describe, test, expect } from 'vitest'
-// import { ColorPicker } from './helper'
+import { describe, it, expect } from 'vitest'
+import { PickingArea } from './helper'
+import type { ColorPicksState } from '../index'
 
-// const cp = new ColorPicker()
-// cp.render(document.createElement('div'))
-// const pickingArea = cp.context.pickingArea!
+describe('Test PickingArea', () => {
+  const oApp = document.createElement('div')
+  const pickingArea = new PickingArea()
 
-describe('test Operations Area events', () => {
-  test('all events are settled', () => {
-    expect(1 + 1).toEqual(2)
-    // const el = pickingArea.el!
-    // const mouseEvent = document.createEvent('MouseEvent')
-    // mouseEvent.initEvent('mousedown', true, true)
-    // el.addEventListener('mousedown', () => {})
-    // el.dispatchEvent(mouseEvent)
+  const state: ColorPicksState = {
+    currentColor: [255, 255, 255, 153],
+    mainColor: [255, 0, 0, 255],
+    initialValue: [255, 255, 255, 255],
+    setCurrentFlag: false,
+    panel: 'ColorPicker',
+    isPicking: false,
+    confirm: () => {},
+    cancel: () => {}
+  }
+  pickingArea.setState(state)
 
-    // mouseEvent.initEvent('mousemove', true, true)
-    // window.addEventListener('mousemove', () => {})
-    // window.dispatchEvent(mouseEvent)
+  pickingArea.render(oApp)
 
-    // mouseEvent.initEvent('mouseup', true, true)
-    // window.addEventListener('mouseup', () => {})
-    // window.dispatchEvent(mouseEvent)
+  it('Should have the correct DOM structure', () => {
+    expect(oApp.querySelector('.picking-area__wrapper')).toBeTruthy()
+  })
 
-    // el.addEventListener('mouseup', () => {})
-    // el.dispatchEvent(mouseEvent)
+  it('setState should work', () => {
+    const oIndicator = pickingArea.el?.querySelector<HTMLElement>('.picking-area__indicator')
+
+    expect(oIndicator?.style?.left).toBe('')
+    expect(oIndicator?.style?.top).toBe('')
+
+    state.currentColor = [255, 0, 0, 255]
+    pickingArea.setState(state, true, true)
+    expect(oIndicator?.style?.left).toBe('100%')
+    expect(oIndicator?.style?.top).toBe('0%')
+
+    state.mainColor = [255, 255, 0, 255]
+    pickingArea.setState(state, true, true)
+    expect(state.currentColor).toEqual([255, 255, 0, 255])
   })
 })

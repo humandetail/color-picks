@@ -1,30 +1,35 @@
-import { describe, test, expect } from 'vitest'
-// import { ColorPicker } from './helper'
+import { describe, it, expect } from 'vitest'
+import { MainColorBar } from './helper'
+import type { ColorPicksState } from '../index'
 
-// const cp = new ColorPicker()
-// cp.render(document.createElement('div'))
-// const colorBar = cp.context.mainColorBar!
+describe('Test MainColorBar', () => {
+  const oApp = document.createElement('div')
+  const mainColorBar = new MainColorBar()
+  mainColorBar.render(oApp)
 
-describe('test Main Color Bar events', () => {
-  test('all events are settled', () => {
-    expect(1 + 1).toEqual(2)
-    // const el = colorBar.el!
-    // const mouseEvent = document.createEvent('MouseEvent')
-    // mouseEvent.initEvent('mousedown', true, true)
-    // el.addEventListener('mousedown', () => {})
-    // el.dispatchEvent(mouseEvent)
+  it('Should have the correct DOM structure', () => {
+    expect(oApp.querySelector('.main-color-bar__wrapper')).toBeTruthy()
+  })
 
-    // mouseEvent.initEvent('mousemove', true, true)
-    // window.addEventListener('mousemove', () => {})
-    // window.dispatchEvent(mouseEvent)
+  it('setState Should work', () => {
+    const state: ColorPicksState = {
+      currentColor: [255, 255, 255, 153],
+      mainColor: [255, 255, 0, 255],
+      initialValue: [255, 255, 255, 255],
+      setCurrentFlag: false,
+      panel: 'ColorPicker',
+      isPicking: false,
+      confirm: () => {},
+      cancel: () => {}
+    }
+    mainColorBar.setState(state)
 
-    // mouseEvent.initEvent('mouseup', true, true)
-    // window.addEventListener('mouseup', () => {})
-    // window.dispatchEvent(mouseEvent)
+    const oIndicator = mainColorBar.el?.querySelector<HTMLElement>('.main-color-bar__indicator')
 
-    // el.addEventListener('mouseup', () => {})
-    // el.dispatchEvent(mouseEvent)
-    // // // @ts-expect-error
-    // // expect(alpha.handleMousedown).toBeCalled()
+    expect(oIndicator?.style?.top).toBe('83.33333333333334%')
+
+    state.mainColor = [255, 0, 255, 255]
+    mainColorBar.setState(state)
+    expect(oIndicator?.style?.top).toBe('16.666666666666664%')
   })
 })

@@ -61,13 +61,10 @@ export default class PickingArea {
 
   render (parentElement: HTMLElement): void {
     this.#createEl()
-    if (!this.el) {
-      throw new Error('Create picking area failed.')
-    }
-    this.#createMainColorBar(this.el)
-    this.#createIndicator(this.el)
+    this.#createMainColorBar(this.el!)
+    this.#createIndicator(this.el!)
 
-    parentElement.appendChild(this.el)
+    parentElement.appendChild(this.el!)
 
     this.#initEvent()
   }

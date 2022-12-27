@@ -1,32 +1,33 @@
-import { describe, test, expect } from 'vitest'
-// import { ColorPicker } from './helper'
-// import { RGBA } from '../types'
+import { describe, it, expect } from 'vitest'
 
-// const BLACK = [0, 0, 0, 255]
-// const cp = new ColorPicker('#000')
+import { ColorPicker } from './helper'
 
-describe('construct color picker', () => {
-  test('should work', () => {
-    expect(1 + 1).toEqual(2)
+import type { ColorPicksState } from '../index'
+
+describe('Test color picker', () => {
+  const oApp = document.createElement('div')
+  const state: ColorPicksState = {
+    currentColor: [255, 255, 255, 153],
+    mainColor: [255, 255, 0, 255],
+    initialValue: [255, 255, 255, 255],
+    setCurrentFlag: false,
+    panel: 'ColorPicker',
+    isPicking: false,
+    confirm: () => {},
+    cancel: () => {}
+  }
+
+  const colorPicker = new ColorPicker(state)
+  colorPicker.render(oApp)
+
+  it('Should have the correct DOM structure', () => {
+    expect(colorPicker.el).toBeTruthy()
+    expect(colorPicker.el?.classList?.contains('color_picks__custom_picker__container')).toBeTruthy()
+
+    const context = colorPicker.context
+
+    expect(context.alphaBar?.el).toBeTruthy()
+    expect(context.mainColorBar?.el).toBeTruthy()
+    expect(context.pickingArea?.el).toBeTruthy()
   })
-  // test('init by uncorrect string', () => {
-  //   expect(new ColorPicker('').initialValue).toStrictEqual([255, 255, 255, 255])
-  // })
-
-  // test('init by hex', () => {
-  //   expect(cp.initialValue).toStrictEqual(BLACK)
-  // })
-
-  // test('render panel', () => {
-  //   cp.render(document.createElement('div'))
-  // })
-
-  // test('reset color', () => {
-  //   cp.currentColor = BLACK as RGBA
-  //   cp.mainColor = [255, 255, 0, 255] as RGBA
-  //   cp.alpha = 255
-  //   expect(cp.currentColor).toStrictEqual(BLACK)
-  //   expect(cp.mainColor).toStrictEqual([255, 255, 0, 255])
-  //   expect(cp.alpha).toBe(255)
-  // })
 })

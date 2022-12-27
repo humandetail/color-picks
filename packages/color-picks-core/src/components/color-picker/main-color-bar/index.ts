@@ -41,13 +41,10 @@ export default class MainColorBar {
 
   render (parentElement: HTMLElement): void {
     this.#createEl()
-    if (!this.el) {
-      throw new Error('Create main color bar failed.')
-    }
-    this.#createMainColorBar(this.el)
-    this.#createIndicator(this.el)
+    this.#createMainColorBar(this.el!)
+    this.#createIndicator(this.el!)
 
-    parentElement.appendChild(this.el)
+    parentElement.appendChild(this.el!)
 
     this.#initEvent()
   }

@@ -1,15 +1,14 @@
-import { configDefaults, defineConfig } from 'vitest/config'
+import { defineConfig, configDefaults } from 'vitest/config'
 import dts from 'vite-plugin-dts'
 
 export default defineConfig({
-  // test: {
-  //   exclude: [...configDefaults.exclude],
-  //   include: ['/test/*.test.ts'],
-  //   environment: 'happy-dom',
-  //   coverage: {
-  //     provider: 'c8'
-  //   }
-  // },
+  test: {
+    exclude: [...configDefaults.exclude],
+    environment: 'happy-dom',
+    coverage: {
+      provider: 'c8'
+    }
+  },
   build: {
     lib: {
       entry: './src/index.ts',
